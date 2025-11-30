@@ -44,15 +44,112 @@
         /* Header Section */
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         h1 {
-            font-size: 28px;
-            color: var(--primary-color);
+            font-size: 42px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-transform: uppercase;
-            margin-bottom: 15px;
-            font-weight: 700;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+            line-height: 1.2;
+        }
+
+        .gvcn-info {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gvcn-info i {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+        }
+
+        header .contact-section {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hiệu ứng cho mobile */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+
+            .gvcn-info {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            .gvcn-info i {
+                font-size: 14px;
+            }
+
+            .career-section {
+                flex-direction: column;
+                gap: 10px;
+                margin: 15px 0;
+            }
+
+            .career-section a {
+                font-size: 14px;
+                padding: 10px 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            header {
+                padding: 20px 15px;
+                margin-bottom: 30px;
+            }
         }
 
         .teacher-info {
@@ -78,12 +175,39 @@
 
         /* Section Titles */
         h2 {
-            font-size: 22px;
-            color: var(--secondary-color);
-            margin: 30px 0 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            font-size: 26px;
+            margin: 40px 0 25px;
+            padding: 15px 20px 15px 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
             text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        h2:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+        }
+
+        h2 i {
+            margin-right: 12px;
+            color: #764ba2;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        h2:hover i {
+            transform: scale(1.1);
         }
 
         /* Timetable Section */
@@ -123,6 +247,92 @@
 
         tr:hover {
             background-color: #f1f1f1;
+        }
+
+        /* Màu sắc cho các môn học */
+        td.subject-toan {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-van {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-anh {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-dia {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-su {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-gdktpl {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-tin {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        td.subject-cn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        td.subject-gdtc {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        td.subject-gdqp {
+            background: linear-gradient(135deg, #ff8a80 0%, #ea6100 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        td.subject-gdhn {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        td.subject-hdtn {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        td.subject-shcn {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Hover effect cho các môn học */
+        td[class*="subject-"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
 
         .session-title {
@@ -288,6 +498,49 @@
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
 
+        .link-15 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .link-16 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        /* Career Section trong Header */
+        .career-section {
+            position: relative;
+            z-index: 2;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .career-section a {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .career-section a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .career-section a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
         /* Password Modal */
         .password-modal {
             display: none;
@@ -415,6 +668,10 @@
                 font-size: 22px;
             }
 
+            .gvcn-info {
+                font-size: 14px;
+            }
+
             .teacher-info p {
                 font-size: 16px;
             }
@@ -448,8 +705,15 @@
             }
 
             h2 {
-                font-size: 18px;
-                margin: 20px 0 15px;
+                font-size: 20px;
+                margin: 30px 0 20px;
+                padding: 12px 15px;
+                letter-spacing: 1px;
+            }
+
+            h2 i {
+                font-size: 20px;
+                margin-right: 10px;
             }
 
             .contact-section {
@@ -497,10 +761,21 @@
     <div class="container">
         <header>
             <h1>Lớp 12C1 - 2024-2025</h1>
-            <div class="teacher-info">
-                <p><i class="fas fa-chalkboard-teacher"></i> GVCN: Võ Thanh Phong</p>
-                <p><i class="fas fa-phone-alt"></i> Zalo: 0382.311.919</p>
+            <div class="gvcn-info">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>GVCN: Võ Thanh Phong</span>
             </div>
+            <div class="career-section">
+                <a href="https://chatgpt.com/g/g-678f082a9d9881919d4898ebe84b9061-ai-huong-nghiep/c/68b907f1-72d8-8329-8471-7af0473f6c55"
+                    class="link-15" target="_blank"><i class="fas fa-robot"></i> Bot Tư vấn hướng nghiệp</a>
+                <a href="https://forms.gle/kexLsyinrctLgZBZ8" class="link-16" target="_blank"><i
+                        class="fas fa-user-graduate"></i> Đăng ký tư vấn học đường</a>
+            </div>
+            <section class="contact-section">
+                <a href="tel:0382311919" class="btn-contact btn-call"><i class="fas fa-phone-volume"></i> Gọi Điện</a>
+                <a href="https://zalo.me/0382311919" class="btn-contact btn-zalo" target="_blank"><i
+                        class="fas fa-comment-dots"></i> Liên hệ Zalo</a>
+            </section>
         </header>
 
         <section class="timetable-section">
@@ -522,46 +797,47 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td rowspan="2" style="vertical-align: middle;" data-tooltip="Phạm Thị Minh Châu">HĐTN</td>
-                        <td data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
+                        <td rowspan="2" class="subject-hdtn" style="vertical-align: middle;"
+                            data-tooltip="Phạm Thị Minh Châu">HĐTN</td>
+                        <td class="subject-anh" data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-anh" data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-anh" data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td data-tooltip="Lê Ngọc Lài">Địa</td>
-                        <td data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
-                        <td data-tooltip="Bùi Văn Lới">Sử</td>
-                        <td data-tooltip="Lê Ngọc Lài">Địa</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-dia" data-tooltip="Lê Ngọc Lài">Địa</td>
+                        <td class="subject-gdktpl" data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
+                        <td class="subject-su" data-tooltip="Bùi Văn Lới">Sử</td>
+                        <td class="subject-dia" data-tooltip="Lê Ngọc Lài">Địa</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td data-tooltip="Bùi Văn Lới">Sử</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
-                        <td data-tooltip="Nguyễn Hồng Nhung">Tin</td>
-                        <td data-tooltip="Lê Ngọc Lài">Địa</td>
-                        <td data-tooltip="Trần Lâm Tùng">CN(CN)</td>
+                        <td class="subject-su" data-tooltip="Bùi Văn Lới">Sử</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-tin" data-tooltip="Nguyễn Hồng Nhung">Tin</td>
+                        <td class="subject-dia" data-tooltip="Lê Ngọc Lài">Địa</td>
+                        <td class="subject-cn" data-tooltip="Trần Lâm Tùng">CN(CN)</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td data-tooltip="Nguyễn Hồng Nhung">Tin</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
-                        <td data-tooltip="Trần Lâm Tùng">CN(CN)</td>
-                        <td data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
-                        <td>Sinh hoạt chủ nhiệm</td>
+                        <td class="subject-tin" data-tooltip="Nguyễn Hồng Nhung">Tin</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-cn" data-tooltip="Trần Lâm Tùng">CN(CN)</td>
+                        <td class="subject-gdktpl" data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
+                        <td class="subject-shcn" data-tooltip="Võ Thanh Phong">SHCN</td>
                         <td>-</td>
                     </tr>
                 </tbody>
@@ -584,37 +860,37 @@
                     <tr>
                         <td>2</td>
                         <td>-</td>
-                        <td data-tooltip="Bùi Văn Lới">Sử</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Trương Hoàng Em">GDTC</td>
+                        <td class="subject-su" data-tooltip="Bùi Văn Lới">Sử</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-gdtc" data-tooltip="Trương Hoàng Em">GDTC</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>3</td>
                         <td>-</td>
-                        <td data-tooltip="Bùi Văn Lới">Sử</td>
-                        <td data-tooltip="Nguyễn Văn Thị">Văn</td>
-                        <td data-tooltip="Võ Thanh Phong">Toán</td>
-                        <td data-tooltip="Trương Hoàng Em">GDTC</td>
+                        <td class="subject-su" data-tooltip="Bùi Văn Lới">Sử</td>
+                        <td class="subject-van" data-tooltip="Nguyễn Văn Thị">Văn</td>
+                        <td class="subject-toan" data-tooltip="Võ Thanh Phong">Toán</td>
+                        <td class="subject-gdtc" data-tooltip="Trương Hoàng Em">GDTC</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td data-tooltip="Phạm Thị Minh Châu">GDHN</td>
-                        <td data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
-                        <td data-tooltip="Lê Ngọc Lài">Địa</td>
-                        <td data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
-                        <td data-tooltip="Lê Minh Tuấn">GDQP</td>
+                        <td class="subject-gdhn" data-tooltip="Phạm Thị Minh Châu">GDHN</td>
+                        <td class="subject-gdktpl" data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
+                        <td class="subject-dia" data-tooltip="Lê Ngọc Lài">Địa</td>
+                        <td class="subject-anh" data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
+                        <td class="subject-gdqp" data-tooltip="Lê Minh Tuấn">GDQP</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td data-tooltip="Phạm Thị Minh Châu">GDHN</td>
-                        <td data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
-                        <td data-tooltip="Lê Ngọc Lài">Địa</td>
-                        <td data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
-                        <td data-tooltip="Lê Minh Tuấn">GDQP</td>
+                        <td class="subject-gdhn" data-tooltip="Phạm Thị Minh Châu">GDHN</td>
+                        <td class="subject-gdktpl" data-tooltip="Nguyễn Thị Cước">GDKT&PL</td>
+                        <td class="subject-dia" data-tooltip="Lê Ngọc Lài">Địa</td>
+                        <td class="subject-anh" data-tooltip="Nguyễn Thanh Tuyền">Anh</td>
+                        <td class="subject-gdqp" data-tooltip="Lê Minh Tuấn">GDQP</td>
                         <td>-</td>
                     </tr>
                 </tbody>
@@ -634,22 +910,10 @@
         </section>
 
         <section class="report-links">
-            <h2><i class="fas fa-file-signature"></i> Cập nhập Sơ yếu Lý lịch đầu năm</h2>
+            <h2><i class="fas fa-file-signature"></i> Cập nhật SYLL đầu năm</h2>
             <ul>
                 <li><a href="https://thayphongmath.github.io/soyeulilich/" class="link-1"><i
                             class="fas fa-file-alt"></i> Sơ yếu lý lịch</a></li>
-            </ul>
-        </section>
-
-        <section class="report-links">
-            <h2><i class="fas fa-user-shield"></i> Giáo viên chủ nhiệm</h2>
-            <ul>
-                <li><a href="#" class="link-10 protected-link"
-                        data-url="https://docs.google.com/spreadsheets/d/1GS3QKu5Bbeoef0rQhkitX_dawnwqlRPdeUaCNKV8cJk/edit?usp=sharing"><i
-                            class="fas fa-chart-line"></i> Tổng kết Lớp</a></li>
-                <li><a href="#" class="link-11 protected-link"
-                        data-url="https://docs.google.com/spreadsheets/d/12XA3VExQ0HSV_1eIoWmJ6j7lQ7pVN3j7IWFvlNxXXRE/edit?usp=sharing"><i
-                            class="fas fa-database"></i> Dữ liệu lớp</a></li>
             </ul>
         </section>
 
@@ -673,10 +937,18 @@
             </ul>
         </section>
 
-        <section class="contact-section">
-            <a href="tel:0382311919" class="btn-contact btn-call"><i class="fas fa-phone-volume"></i> Gọi Điện</a>
-            <a href="https://zalo.me/0382311919" class="btn-contact btn-zalo" target="_blank"><i
-                    class="fas fa-comment-dots"></i> Liên hệ Zalo</a>
+
+
+        <section class="report-links">
+            <h2><i class="fas fa-user-shield"></i> Giáo viên chủ nhiệm</h2>
+            <ul>
+                <li><a href="#" class="link-10 protected-link"
+                        data-url="https://docs.google.com/spreadsheets/d/1GS3QKu5Bbeoef0rQhkitX_dawnwqlRPdeUaCNKV8cJk/edit?usp=sharing"><i
+                            class="fas fa-chart-line"></i> Tổng kết Lớp</a></li>
+                <li><a href="#" class="link-11 protected-link"
+                        data-url="https://docs.google.com/spreadsheets/d/12XA3VExQ0HSV_1eIoWmJ6j7lQ7pVN3j7IWFvlNxXXRE/edit?usp=sharing"><i
+                            class="fas fa-database"></i> Dữ liệu lớp</a></li>
+            </ul>
         </section>
     </div>
 
@@ -694,37 +966,160 @@
     </div>
 
     <script>
-        // Mã hóa password: thayphongmaths (base64)
-        const encodedPassword = 'dGhheXBob25nbWF0aHM=';
+        // Password: 12345
+        const correctPassword = '123456';
+        const maxAttempts = 5; // Số lần nhập sai tối đa
+        const lockoutTime = 15 * 60 * 1000; // 15 phút (milliseconds)
+        const sessionDuration = 60 * 60 * 1000; // 1 giờ
+
         let currentProtectedUrl = '';
+        let failedAttempts = 0;
+        let lockoutUntil = 0;
+        let passwordHash = null; // Sẽ được tính khi trang load
+
+        // Hash password bằng SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // Tính hash của password đúng khi trang load
+        (async function initPasswordHash() {
+            passwordHash = await hashPassword(correctPassword);
+            console.log('Password hash đã được tính:', passwordHash ? 'OK' : 'FAILED');
+        })();
+
+        // Kiểm tra session storage
+        function checkSession() {
+            const session = sessionStorage.getItem('passwordSession');
+            if (session) {
+                const sessionTime = parseInt(session);
+                if (Date.now() - sessionTime < sessionDuration) {
+                    return true; // Session còn hiệu lực
+                } else {
+                    sessionStorage.removeItem('passwordSession');
+                }
+            }
+            return false;
+        }
+
+        // Lưu session
+        function saveSession() {
+            sessionStorage.setItem('passwordSession', Date.now().toString());
+        }
+
+        // Kiểm tra lockout
+        function isLockedOut() {
+            const lockout = localStorage.getItem('passwordLockout');
+            if (lockout) {
+                lockoutUntil = parseInt(lockout);
+                if (Date.now() < lockoutUntil) {
+                    const remainingMinutes = Math.ceil((lockoutUntil - Date.now()) / 60000);
+                    return remainingMinutes;
+                } else {
+                    localStorage.removeItem('passwordLockout');
+                    localStorage.removeItem('failedAttempts');
+                    failedAttempts = 0;
+                }
+            }
+            return false;
+        }
 
         // Mở modal password khi click vào link được bảo vệ
         document.querySelectorAll('.protected-link').forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
+
+                // Kiểm tra session trước
+                if (checkSession()) {
+                    // Đã đăng nhập, mở link luôn
+                    window.open(this.getAttribute('data-url'), '_blank');
+                    return;
+                }
+
+                // Kiểm tra lockout
+                const lockoutMinutes = isLockedOut();
+                if (lockoutMinutes) {
+                    document.getElementById('passwordError').textContent =
+                        `Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau ${lockoutMinutes} phút.`;
+                    document.getElementById('passwordError').style.display = 'block';
+                    document.getElementById('passwordInput').disabled = true;
+                } else {
+                    document.getElementById('passwordInput').disabled = false;
+                    document.getElementById('passwordError').style.display = 'none';
+                }
+
                 currentProtectedUrl = this.getAttribute('data-url');
                 document.getElementById('passwordModal').classList.add('active');
                 document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordError').style.display = 'none';
                 document.getElementById('passwordInput').focus();
             });
         });
 
         // Kiểm tra password
-        function checkPassword() {
-            const input = document.getElementById('passwordInput').value;
-            // Giải mã và so sánh
-            const decodedPassword = atob(encodedPassword);
+        async function checkPassword() {
+            const input = document.getElementById('passwordInput').value.trim();
 
-            if (input === decodedPassword) {
-                // Mật khẩu đúng, mở link
-                window.open(currentProtectedUrl, '_blank');
-                closePasswordModal();
-            } else {
-                // Mật khẩu sai
+            if (!input) {
+                document.getElementById('passwordError').textContent = 'Vui lòng nhập mật khẩu!';
                 document.getElementById('passwordError').style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
+                return;
+            }
+
+            try {
+                // Đảm bảo hash đã được tính
+                if (!passwordHash) {
+                    passwordHash = await hashPassword(correctPassword);
+                }
+
+                // Hash password input
+                const inputHash = await hashPassword(input);
+
+                // Debug (có thể xóa sau)
+                console.log('Input hash:', inputHash);
+                console.log('Correct hash:', passwordHash);
+                console.log('Match:', inputHash === passwordHash);
+
+                // So sánh hash đầy đủ
+                if (inputHash === passwordHash) {
+                    // Mật khẩu đúng
+                    saveSession(); // Lưu session
+                    localStorage.removeItem('failedAttempts'); // Reset attempts
+                    failedAttempts = 0;
+
+                    // Mở link
+                    window.open(currentProtectedUrl, '_blank');
+                    closePasswordModal();
+                } else {
+                    // Mật khẩu sai
+                    failedAttempts = parseInt(localStorage.getItem('failedAttempts') || '0') + 1;
+                    localStorage.setItem('failedAttempts', failedAttempts.toString());
+
+                    if (failedAttempts >= maxAttempts) {
+                        // Khóa trong 15 phút
+                        lockoutUntil = Date.now() + lockoutTime;
+                        localStorage.setItem('passwordLockout', lockoutUntil.toString());
+                        document.getElementById('passwordError').textContent =
+                            `Bạn đã nhập sai ${maxAttempts} lần. Tài khoản bị khóa trong 15 phút.`;
+                        document.getElementById('passwordInput').disabled = true;
+                    } else {
+                        const remaining = maxAttempts - failedAttempts;
+                        document.getElementById('passwordError').textContent =
+                            `Mật khẩu không đúng! Còn ${remaining} lần thử.`;
+                    }
+
+                    document.getElementById('passwordError').style.display = 'block';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('passwordInput').focus();
+                }
+            } catch (error) {
+                console.error('Lỗi khi kiểm tra password:', error);
+                document.getElementById('passwordError').textContent = 'Có lỗi xảy ra. Vui lòng thử lại!';
+                document.getElementById('passwordError').style.display = 'block';
             }
         }
 
@@ -733,6 +1128,7 @@
             document.getElementById('passwordModal').classList.remove('active');
             document.getElementById('passwordInput').value = '';
             document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('passwordInput').disabled = false;
             currentProtectedUrl = '';
         }
 
@@ -745,11 +1141,17 @@
 
         // Enter để xác nhận
         document.getElementById('passwordInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !this.disabled) {
                 checkPassword();
             }
         });
     </script>
+
+    <section class="contact-section">
+        <a href="tel:0382311919" class="btn-contact btn-call"><i class="fas fa-phone-volume"></i> Gọi Điện</a>
+        <a href="https://zalo.me/0382311919" class="btn-contact btn-zalo" target="_blank"><i
+                class="fas fa-comment-dots"></i> Liên hệ Zalo</a>
+    </section>
 </body>
 
 </html>
