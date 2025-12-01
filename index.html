@@ -541,6 +541,108 @@
             font-size: 18px;
         }
 
+        /* Birthday Section */
+        .birthday-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: birthdayPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes birthdayPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .birthday-section.hidden {
+            display: none;
+        }
+
+        .birthday-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .birthday-icon {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 15px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .birthday-message {
+            font-size: 24px;
+            color: white;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .birthday-name {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 800;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            display: inline-block;
+            animation: nameGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes nameGlow {
+
+            0%,
+            100% {
+                text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+
+            50% {
+                text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Confetti/Fireworks */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            top: -10px;
+            animation: confettiFall linear forwards;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         /* Password Modal */
         .password-modal {
             display: none;
@@ -778,6 +880,19 @@
             </section>
         </header>
 
+        <!-- Birthday Section -->
+        <section class="birthday-section hidden" id="birthdaySection">
+            <div class="birthday-content">
+                <div class="birthday-icon">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <div class="birthday-message" id="birthdayMessage">
+                    Chúc mừng bạn <span class="birthday-name" id="birthdayName"></span>!<br>
+                    Sinh nhật vui vẻ và ngày càng học giỏi! 🎉
+                </div>
+            </div>
+        </section>
+
         <section class="timetable-section">
             <h2><i class="fas fa-calendar-alt"></i> Thời Khóa Biểu</h2>
 
@@ -948,6 +1063,8 @@
                 <li><a href="#" class="link-11 protected-link"
                         data-url="https://docs.google.com/spreadsheets/d/12XA3VExQ0HSV_1eIoWmJ6j7lQ7pVN3j7IWFvlNxXXRE/edit?usp=sharing"><i
                             class="fas fa-database"></i> Dữ liệu lớp</a></li>
+                <li><a href="https://thayphongmath.github.io/lienheph/" class="link-15" target="_blank"><i
+                            class="fas fa-users"></i> Liên hệ nhanh Phụ huynh</a></li>
             </ul>
         </section>
     </div>
@@ -959,89 +1076,94 @@
             <input type="password" id="passwordInput" placeholder="Nhập mật khẩu..." autofocus>
             <div class="password-error" id="passwordError">Mật khẩu không đúng!</div>
             <div>
-                <button onclick="checkPassword()">Xác nhận</button>
+                <button onclick="validateInput()">Xác nhận</button>
                 <button class="btn-cancel" onclick="closePasswordModal()">Hủy</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Password: 12345
-        const correctPassword = '123456';
-        const maxAttempts = 5; // Số lần nhập sai tối đa
-        const lockoutTime = 15 * 60 * 1000; // 15 phút (milliseconds)
-        const sessionDuration = 60 * 60 * 1000; // 1 giờ
+        // Cấu hình hệ thống
+        const maxAttempts = 5;
+        const lockoutTime = 15 * 60 * 1000;
+        const sessionDuration = 60 * 60 * 1000;
 
-        let currentProtectedUrl = '';
-        let failedAttempts = 0;
-        let lockoutUntil = 0;
-        let passwordHash = null; // Sẽ được tính khi trang load
+        // Dữ liệu cấu hình (các hash giả để đánh lạc hướng)
+        const configData1 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; 
+        const configData2 = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; 
+        const configData3 = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f'; 
+        const configData4 = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'; 
+        const configData5 = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; 
+        const configData6 = '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'; 
 
-        // Hash password bằng SHA-256
-        async function hashPassword(password) {
+        let targetLink = '';
+        let errorCount = 0;
+        let blockTime = 0;
+        let authToken = null;
+
+        // Hàm mã hóa dữ liệu
+        async function encodeData(inputStr) {
             const encoder = new TextEncoder();
-            const data = encoder.encode(password);
+            const data = encoder.encode(inputStr);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             return hashHex;
         }
 
-        // Tính hash của password đúng khi trang load
-        (async function initPasswordHash() {
-            passwordHash = await hashPassword(correctPassword);
-            console.log('Password hash đã được tính:', passwordHash ? 'OK' : 'FAILED');
+        // Khởi tạo token xác thực
+        (async function initAuthToken() {
+            authToken = configData4; // Sử dụng configData4 làm token thực tế
         })();
 
-        // Kiểm tra session storage
+        // Kiểm tra phiên làm việc
         function checkSession() {
-            const session = sessionStorage.getItem('passwordSession');
+            const session = sessionStorage.getItem('userSession');
             if (session) {
                 const sessionTime = parseInt(session);
                 if (Date.now() - sessionTime < sessionDuration) {
-                    return true; // Session còn hiệu lực
+                    return true;
                 } else {
-                    sessionStorage.removeItem('passwordSession');
+                    sessionStorage.removeItem('userSession');
                 }
             }
             return false;
         }
 
-        // Lưu session
+        // Lưu phiên làm việc
         function saveSession() {
-            sessionStorage.setItem('passwordSession', Date.now().toString());
+            sessionStorage.setItem('userSession', Date.now().toString());
         }
 
-        // Kiểm tra lockout
+        // Kiểm tra trạng thái khóa
         function isLockedOut() {
-            const lockout = localStorage.getItem('passwordLockout');
+            const lockout = localStorage.getItem('systemLockout');
             if (lockout) {
-                lockoutUntil = parseInt(lockout);
-                if (Date.now() < lockoutUntil) {
-                    const remainingMinutes = Math.ceil((lockoutUntil - Date.now()) / 60000);
+                blockTime = parseInt(lockout);
+                if (Date.now() < blockTime) {
+                    const remainingMinutes = Math.ceil((blockTime - Date.now()) / 60000);
                     return remainingMinutes;
                 } else {
-                    localStorage.removeItem('passwordLockout');
-                    localStorage.removeItem('failedAttempts');
-                    failedAttempts = 0;
+                    localStorage.removeItem('systemLockout');
+                    localStorage.removeItem('errorCount');
+                    errorCount = 0;
                 }
             }
             return false;
         }
 
-        // Mở modal password khi click vào link được bảo vệ
+        // Xử lý click vào link được bảo vệ
         document.querySelectorAll('.protected-link').forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
 
-                // Kiểm tra session trước
+                // Kiểm tra phiên làm việc
                 if (checkSession()) {
-                    // Đã đăng nhập, mở link luôn
                     window.open(this.getAttribute('data-url'), '_blank');
                     return;
                 }
 
-                // Kiểm tra lockout
+                // Kiểm tra trạng thái khóa
                 const lockoutMinutes = isLockedOut();
                 if (lockoutMinutes) {
                     document.getElementById('passwordError').textContent =
@@ -1053,15 +1175,15 @@
                     document.getElementById('passwordError').style.display = 'none';
                 }
 
-                currentProtectedUrl = this.getAttribute('data-url');
+                targetLink = this.getAttribute('data-url');
                 document.getElementById('passwordModal').classList.add('active');
                 document.getElementById('passwordInput').value = '';
                 document.getElementById('passwordInput').focus();
             });
         });
 
-        // Kiểm tra password
-        async function checkPassword() {
+        // Xác thực đầu vào
+        async function validateInput() {
             const input = document.getElementById('passwordInput').value.trim();
 
             if (!input) {
@@ -1071,43 +1193,34 @@
             }
 
             try {
-                // Đảm bảo hash đã được tính
-                if (!passwordHash) {
-                    passwordHash = await hashPassword(correctPassword);
+                // Đảm bảo token đã được khởi tạo
+                if (!authToken) {
+                    authToken = configData4;
                 }
 
-                // Hash password input
-                const inputHash = await hashPassword(input);
+                // Mã hóa đầu vào
+                const inputHash = await encodeData(input);
 
-                // Debug (có thể xóa sau)
-                console.log('Input hash:', inputHash);
-                console.log('Correct hash:', passwordHash);
-                console.log('Match:', inputHash === passwordHash);
+                // So sánh với token xác thực
+                if (inputHash === authToken) {
+                    saveSession();
+                    localStorage.removeItem('errorCount');
+                    errorCount = 0;
 
-                // So sánh hash đầy đủ
-                if (inputHash === passwordHash) {
-                    // Mật khẩu đúng
-                    saveSession(); // Lưu session
-                    localStorage.removeItem('failedAttempts'); // Reset attempts
-                    failedAttempts = 0;
-
-                    // Mở link
-                    window.open(currentProtectedUrl, '_blank');
+                    window.open(targetLink, '_blank');
                     closePasswordModal();
                 } else {
-                    // Mật khẩu sai
-                    failedAttempts = parseInt(localStorage.getItem('failedAttempts') || '0') + 1;
-                    localStorage.setItem('failedAttempts', failedAttempts.toString());
+                    errorCount = parseInt(localStorage.getItem('errorCount') || '0') + 1;
+                    localStorage.setItem('errorCount', errorCount.toString());
 
-                    if (failedAttempts >= maxAttempts) {
-                        // Khóa trong 15 phút
-                        lockoutUntil = Date.now() + lockoutTime;
-                        localStorage.setItem('passwordLockout', lockoutUntil.toString());
+                    if (errorCount >= maxAttempts) {
+                        blockTime = Date.now() + lockoutTime;
+                        localStorage.setItem('systemLockout', blockTime.toString());
                         document.getElementById('passwordError').textContent =
                             `Bạn đã nhập sai ${maxAttempts} lần. Tài khoản bị khóa trong 15 phút.`;
                         document.getElementById('passwordInput').disabled = true;
                     } else {
-                        const remaining = maxAttempts - failedAttempts;
+                        const remaining = maxAttempts - errorCount;
                         document.getElementById('passwordError').textContent =
                             `Mật khẩu không đúng! Còn ${remaining} lần thử.`;
                     }
@@ -1117,7 +1230,7 @@
                     document.getElementById('passwordInput').focus();
                 }
             } catch (error) {
-                console.error('Lỗi khi kiểm tra password:', error);
+                console.error('Lỗi xử lý:', error);
                 document.getElementById('passwordError').textContent = 'Có lỗi xảy ra. Vui lòng thử lại!';
                 document.getElementById('passwordError').style.display = 'block';
             }
@@ -1129,7 +1242,7 @@
             document.getElementById('passwordInput').value = '';
             document.getElementById('passwordError').style.display = 'none';
             document.getElementById('passwordInput').disabled = false;
-            currentProtectedUrl = '';
+            targetLink = '';
         }
 
         // Đóng modal khi click bên ngoài
@@ -1142,9 +1255,118 @@
         // Enter để xác nhận
         document.getElementById('passwordInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && !this.disabled) {
-                checkPassword();
+                validateInput();
             }
         });
+
+        // ========== BIRTHDAY FUNCTIONALITY ==========
+        // Danh sách học sinh với ngày sinh (chỉ lưu trong code, không hiển thị)
+        const students = [
+            { name: 'Nguyễn Minh Anh', birthDay: 25, birthMonth: 1 },
+            { name: 'Nguyễn Thị Xuân Nhi', birthDay: 7, birthMonth: 4 },
+            { name: 'Trần Thị Cẩm Nhung', birthDay: 17, birthMonth: 7 },
+            { name: 'Trần Thị Thúy Quỳnh', birthDay: 16, birthMonth: 4 },
+            { name: 'Nguyễn Thị Tú Sương', birthDay: 4, birthMonth: 4 },
+            { name: 'Lê Đông Thy', birthDay: 26, birthMonth: 12 },
+            { name: 'Nguyễn Phạm Bảo Trân', birthDay: 29, birthMonth: 8 },
+            { name: 'Nguyễn Thị Kim Cương', birthDay: 8, birthMonth: 11 },
+            { name: 'Huỳnh Minh Tường', birthDay: 27, birthMonth: 10 },
+            { name: 'Nguyễn Thị Thuỳ Dương', birthDay: 11, birthMonth: 11 },
+            { name: 'Nguyễn Thành Đạt', birthDay: 5, birthMonth: 9 },
+            { name: 'Trần Tiến Đạt', birthDay: 3, birthMonth: 2 },
+            { name: 'Bùi Minh Đức', birthDay: 28, birthMonth: 11 },
+            { name: 'Trần Gia Huệ', birthDay: 19, birthMonth: 2 },
+            { name: 'Đinh Trung Kiên', birthDay: 18, birthMonth: 3 },
+            { name: 'Lê Thị Thúy Kiều', birthDay: 16, birthMonth: 5 },
+            { name: 'Lê Thị Thúy Kiều', birthDay: 15, birthMonth: 12 },
+            { name: 'Trần Nguyễn Hồng Lam', birthDay: 3, birthMonth: 6 },
+            { name: 'Nguyễn Thị Kiều Liên', birthDay: 22, birthMonth: 8 },
+            { name: 'Lê Ngọc Linh', birthDay: 23, birthMonth: 11 },
+            { name: 'Tăng Hoàng Trúc Linh', birthDay: 19, birthMonth: 9 },
+            { name: 'Trần Thanh Long', birthDay: 23, birthMonth: 12 },
+            { name: 'Nguyễn Kim Tường My', birthDay: 9, birthMonth: 11 },
+            { name: 'Phạm Thị Kim Ngọc', birthDay: 18, birthMonth: 11 },
+            { name: 'Nguyễn Thiện Nhân', birthDay: 30, birthMonth: 8 },
+            { name: 'Trần Ngọc Nhân', birthDay: 27, birthMonth: 3 },
+            { name: 'Trần Thị Yến Nhi', birthDay: 12, birthMonth: 11 },
+            { name: 'Bùi Thị Thiện Như', birthDay: 16, birthMonth: 4 },
+            { name: 'Bùi Trần Quỳnh Như', birthDay: 6, birthMonth: 11 },
+            { name: 'Phạm Minh Nhựt', birthDay: 17, birthMonth: 11 },
+            { name: 'Lê Minh Quí', birthDay: 13, birthMonth: 9 },
+            { name: 'Bùi Thị Kiều Quy', birthDay: 4, birthMonth: 12 },
+            { name: 'Nguyễn Thị Bích Thi', birthDay: 26, birthMonth: 9 },
+            { name: 'Trương Thị Bảo Thi', birthDay: 5, birthMonth: 3 },
+            { name: 'Nguyễn Đức Thịnh', birthDay: 30, birthMonth: 12 },
+            { name: 'Dương Ngọc Thư', birthDay: 28, birthMonth: 10 },
+            { name: 'Hồng Ngọc Anh Thư', birthDay: 23, birthMonth: 5 },
+            { name: 'Lê Văn Thuận', birthDay: 30, birthMonth: 4 },
+            { name: 'Lê Hoàng Bảo Thy', birthDay: 30, birthMonth: 11 },
+            { name: 'Nguyễn Thị Bảo Trăm', birthDay: 23, birthMonth: 2 },
+            { name: 'Nguyễn Thị Ngọc Trân', birthDay: 26, birthMonth: 1 },
+            { name: 'Lê Thị Như Ý', birthDay: 22, birthMonth: 10 },
+            { name: 'Lê Thị Ngọc Yến', birthDay: 24, birthMonth: 7 },
+            { name: 'Nguyễn Thị Thảo Vi', birthDay: 20, birthMonth: 8 },
+            { name: 'Nguyễn Trúc Đào', birthDay: 21, birthMonth: 6 },
+            { name: 'Nguyễn Thị Ánh Hồng', birthDay: 9, birthMonth: 3 },
+            { name: 'Hà Thị Tuyết My', birthDay: 23, birthMonth: 12 },
+            { name: 'Nguyễn Thị Kim Tiên', birthDay: 9, birthMonth: 6 }
+        ];
+
+        // Kiểm tra sinh nhật hôm nay
+        function checkBirthday() {
+            const today = new Date();
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth() + 1; // getMonth() trả về 0-11
+
+            const birthdayStudents = students.filter(student =>
+                student.birthDay === todayDay && student.birthMonth === todayMonth
+            );
+
+            if (birthdayStudents.length > 0) {
+                // Có sinh nhật hôm nay
+                const birthdaySection = document.getElementById('birthdaySection');
+                const birthdayName = document.getElementById('birthdayName');
+
+                if (birthdayStudents.length === 1) {
+                    // Chỉ 1 học sinh
+                    birthdayName.textContent = birthdayStudents[0].name;
+                } else {
+                    // Nhiều học sinh
+                    birthdayName.textContent = birthdayStudents.map(s => s.name).join(', ');
+                }
+
+                birthdaySection.classList.remove('hidden');
+                createConfetti();
+            }
+        }
+
+        // Tạo hiệu ứng pháo hoa/confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff6348'];
+            const confettiCount = 100;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 20);
+            }
+        }
+
+        // Chạy kiểm tra khi trang load
+        checkBirthday();
     </script>
 
     <section class="contact-section">
