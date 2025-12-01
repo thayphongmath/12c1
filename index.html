@@ -1083,12 +1083,12 @@
     </div>
 
     <script>
-        // Cấu hình hệ thống
+        
         const maxAttempts = 5;
         const lockoutTime = 15 * 60 * 1000;
         const sessionDuration = 60 * 60 * 1000;
 
-        // Dữ liệu cấu hình (các hash giả để đánh lạc hướng)
+        
         const configData1 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; 
         const configData2 = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; 
         const configData3 = 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f'; 
@@ -1101,7 +1101,7 @@
         let blockTime = 0;
         let authToken = null;
 
-        // Hàm mã hóa dữ liệu
+        
         async function encodeData(inputStr) {
             const encoder = new TextEncoder();
             const data = encoder.encode(inputStr);
@@ -1111,12 +1111,12 @@
             return hashHex;
         }
 
-        // Khởi tạo token xác thực
+        
         (async function initAuthToken() {
             authToken = configData4; // Sử dụng configData4 làm token thực tế
         })();
 
-        // Kiểm tra phiên làm việc
+        
         function checkSession() {
             const session = sessionStorage.getItem('userSession');
             if (session) {
@@ -1130,12 +1130,12 @@
             return false;
         }
 
-        // Lưu phiên làm việc
+        
         function saveSession() {
             sessionStorage.setItem('userSession', Date.now().toString());
         }
 
-        // Kiểm tra trạng thái khóa
+        
         function isLockedOut() {
             const lockout = localStorage.getItem('systemLockout');
             if (lockout) {
@@ -1152,7 +1152,7 @@
             return false;
         }
 
-        // Xử lý click vào link được bảo vệ
+        
         document.querySelectorAll('.protected-link').forEach(link => {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
