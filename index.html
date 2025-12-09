@@ -1418,6 +1418,21 @@
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
         const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
 
+        function parseVNDate(str) {
+            const parts = str.split('/').map(Number);
+            if (parts.length !== 3) return null;
+            const [d, m, y] = parts;
+            if (!d || !m || !y) return null;
+            return new Date(y, m - 1, d);
+        }
+
+        function extractStartDate(rangeStr) {
+            if (!rangeStr) return null;
+            const match = rangeStr.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+            if (!match) return null;
+            return parseVNDate(match[1]);
+        }
+
         function parseCsv(text) {
             const rows = [];
             let current = '';
@@ -1467,9 +1482,18 @@
                 const headers = data[0];
                 let rows = data.slice(1).filter(r => r.some(cell => cell && cell.trim() !== ''));
 
-                // Chỉ giữ 5 tuần mới nhất
-                if (rows.length > 5) {
-                    rows = rows.slice(-5);
+                // Lọc 5 tuần gần nhất theo ngày bắt đầu trong cột "Từ ngày đến ngày" (cột thứ 3)
+                const withDates = rows.map(r => {
+                    const start = extractStartDate(r[2]);
+                    return { row: r, start };
+                }).filter(x => x.start instanceof Date && !isNaN(x.start.getTime()));
+
+                if (withDates.length) {
+                    withDates.sort((a, b) => b.start - a.start);
+                    rows = withDates.slice(0, 5).map(x => x.row);
+                } else {
+                    // fallback: lấy 5 dòng cuối nếu không parse được ngày
+                    if (rows.length > 5) rows = rows.slice(-5);
                 }
 
                 // Render header
