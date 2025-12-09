@@ -764,51 +764,146 @@
             margin-right: 10px;
         }
 
-        /* Memories link */
+        /* Memories slider */
         .memories-section {
             margin: 30px 0;
         }
 
         .memory-card {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fcb69f 100%);
+            position: relative;
+            background: linear-gradient(135deg, #7f7fd5 0%, #86a8e7 50%, #91eae4 100%);
             border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            color: #4a2c2c;
-            flex-wrap: wrap;
+            padding: 18px 48px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            overflow: hidden;
         }
 
-        .memory-text {
-            font-weight: 700;
-            font-size: 18px;
+        .memory-title {
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .memory-text i {
+        .memory-title i {
             font-size: 22px;
         }
 
-        .memory-btn {
-            padding: 12px 18px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-            transition: all 0.2s ease;
+        .slides-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
         }
 
-        .memory-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        .slides {
+            display: flex;
+            transition: transform 0.6s ease;
+            will-change: transform;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.15));
+        }
+
+        .slide-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+            z-index: 1;
+        }
+
+        .slide-info {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide-bg {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .slide-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .slide-nav:hover {
+            background: rgba(0, 0, 0, 0.55);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .slide-nav.prev {
+            left: 8px;
+        }
+
+        .slide-nav.next {
+            right: 8px;
+        }
+
+        .slide-dots {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .slide-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .slide-dot.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 600px) {
+            .memory-card {
+                padding: 16px 16px 20px;
+            }
+
+            .slide-bg {
+                height: 190px;
+            }
         }
 
         /* Countdown HK1 */
@@ -1410,9 +1505,41 @@
 
         <section class="memories-section">
             <div class="memory-card">
-                <div class="memory-text"><i class="fas fa-images"></i> Kỷ niệm lớp 12C1</div>
-                <a class="memory-btn" href="https://photos.app.goo.gl/RXmdLwygHYZsgWzs8" target="_blank"
-                    rel="noopener">Xem album</a>
+                <div class="memory-title"><i class="fas fa-images"></i> Kỷ niệm lớp 12C1</div>
+                <div class="slides-wrapper">
+                    <div class="slides" id="memorySlides">
+                        <a class="slide" href="https://photos.app.goo.gl/RXmdLwygHYZsgWzs8" target="_blank"
+                            rel="noopener">
+                            <img class="slide-bg"
+                                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80"
+                                alt="Album 1">
+                            <div class="slide-content">
+                                <div class="slide-info">Album 20-11</div>
+                            </div>
+                        </a>
+                        <a class="slide" href="https://photos.app.goo.gl/LJ76LHLyPDby9h8b9" target="_blank"
+                            rel="noopener">
+                            <img class="slide-bg"
+                                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80"
+                                alt="Album 2">
+                            <div class="slide-content">
+                                <div class="slide-info">Kỷ niệm 1</div>
+                            </div>
+                        </a>
+                        <a class="slide" href="https://photos.app.goo.gl/6rBVTpXg7BjqKrM76" target="_blank"
+                            rel="noopener">
+                            <img class="slide-bg"
+                                src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80"
+                                alt="Album 3">
+                            <div class="slide-content">
+                                <div class="slide-info">Kỷ niệm 2</div>
+                            </div>
+                        </a>
+                    </div>
+                    <button class="slide-nav prev" id="memPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slide-nav next" id="memNext"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="slide-dots" id="memDots"></div>
             </div>
         </section>
 
@@ -1762,6 +1889,48 @@
 
         renderCountdown();
         setInterval(renderCountdown, 1000);
+
+        // ========== MEMORIES SLIDER ==========
+        (function () {
+            const slides = Array.from(document.querySelectorAll('#memorySlides .slide'));
+            const dotsContainer = document.getElementById('memDots');
+            const prevBtn = document.getElementById('memPrev');
+            const nextBtn = document.getElementById('memNext');
+            if (!slides.length) return;
+
+            let current = 0;
+            let timer;
+
+            function goTo(idx) {
+                current = (idx + slides.length) % slides.length;
+                const track = document.getElementById('memorySlides');
+                track.style.transform = `translateX(-${current * 100}%)`;
+                updateDots();
+                resetTimer();
+            }
+
+            function updateDots() {
+                if (!dotsContainer) return;
+                dotsContainer.innerHTML = '';
+                slides.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'slide-dot' + (i === current ? ' active' : '');
+                    dot.addEventListener('click', () => goTo(i));
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            function resetTimer() {
+                clearInterval(timer);
+                timer = setInterval(() => goTo(current + 1), 5000);
+            }
+
+            prevBtn?.addEventListener('click', () => goTo(current - 1));
+            nextBtn?.addEventListener('click', () => goTo(current + 1));
+
+            goTo(0);
+            resetTimer();
+        })();
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
         const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
