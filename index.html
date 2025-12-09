@@ -857,6 +857,16 @@
             color: #fff;
         }
 
+        .admission-suggestion {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #fefefe;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
         .admission-form label {
             display: block;
             font-weight: 600;
@@ -1556,6 +1566,13 @@
                         <option value="D06">D06 (Toán, Văn, Nhật)</option>
                         <option value="D07">D07 (Toán, Hóa, Anh)</option>
                         <option value="D08">D08 (Toán, Sinh, Anh)</option>
+                        <option value="H">H (Văn, Vẽ NK1, Vẽ NK2)</option>
+                        <option value="V">V (Toán, Lý, Vẽ mỹ thuật)</option>
+                        <option value="M">M (Toán, Văn, NK Mầm non)</option>
+                        <option value="N">N (Văn, NK Âm nhạc 1 & 2)</option>
+                        <option value="T">T (Toán, Sinh/Văn, NK TDTT)</option>
+                        <option value="S">S (Văn, NK Sân khấu/Điện ảnh)</option>
+                        <option value="R">R (Văn, Sử, NK Báo chí/Nghệ thuật)</option>
                     </select>
                 </div>
                 <div id="admission-subjects"
@@ -1949,7 +1966,14 @@
                 D05: ['toan', 'van', 'duc'],
                 D06: ['toan', 'van', 'nhat'],
                 D07: ['toan', 'hoa', 'anh'],
-                D08: ['toan', 'sinh', 'anh']
+                D08: ['toan', 'sinh', 'anh'],
+                H: ['van', 've1', 've2'],
+                V: ['toan', 'ly', 've'],
+                M: ['toan', 'van', 'nk'],
+                N: ['van', 'nk1', 'nk2'],
+                T: ['toan', 'sinh', 'nk'],
+                S: ['van', 'nk1', 'nk2'],
+                R: ['van', 'su', 'nk']
             };
 
             const subjectsLabel = {
@@ -1966,7 +1990,13 @@
                 phap: 'Tiếng Pháp',
                 trung: 'Tiếng Trung',
                 duc: 'Tiếng Đức',
-                nhat: 'Tiếng Nhật'
+                nhat: 'Tiếng Nhật',
+                ve: 'Vẽ mỹ thuật',
+                ve1: 'Vẽ NK1',
+                ve2: 'Vẽ NK2',
+                nk: 'Năng khiếu',
+                nk1: 'NK1',
+                nk2: 'NK2'
             };
 
             const suggests = [
@@ -1975,6 +2005,36 @@
                 { min: 22, max: 25, text: 'ĐH Cần Thơ (đa số ngành), ĐH An Giang (ĐHQG), NCTU, FPT Cần Thơ.' },
                 { min: 25, max: 40, text: 'ĐH Cần Thơ các ngành hot (CNTT, Kinh tế, QTKD), NCTU/FPT CT chương trình chất lượng cao.' }
             ];
+
+            const suggestByCombo = {
+                A00: 'CNTT, Cơ khí, Điện-Điện tử, Kinh tế; ĐH Cần Thơ, NCTU, FPT CT.',
+                A01: 'CNTT, KH máy tính, Kinh tế, Logistics; ĐH Cần Thơ, NCTU.',
+                A02: 'Kỹ thuật môi trường, Kỹ thuật sinh học; ĐH Cần Thơ.',
+                B00: 'Y, Dược, Điều dưỡng, CNSH; ĐHYDCT, ĐH Cần Thơ.',
+                B03: 'Sinh học ứng dụng, Công nghệ sinh học; ĐH vùng.',
+                B08: 'Sinh học, Môi trường, Ngoại ngữ; ĐH Cần Thơ.',
+                C00: 'Báo chí, Luật, SP XH, Du lịch; ĐH Cần Thơ, ĐH Trà Vinh.',
+                C01: 'Luật, Quản trị, Báo chí; ĐH Cần Thơ.',
+                C03: 'Sư phạm, Luật; ĐH Cần Thơ.',
+                C04: 'Du lịch, Quản trị; ĐH Cần Thơ.',
+                C19: 'Luật, Quản trị; ĐH vùng.',
+                C20: 'Du lịch, Văn hóa; ĐH vùng.',
+                D01: 'Kinh tế, Ngoại ngữ, CNTT; ĐH Cần Thơ, FPT CT.',
+                D02: 'Ngôn ngữ Nga; ít trường, cân nhắc chuyên ngoại ngữ.',
+                D03: 'Ngôn ngữ Pháp; ĐH KHXH&NV (tham khảo), các chương trình song ngữ.',
+                D04: 'Ngôn ngữ Trung; ĐH Cần Thơ, ĐH Mở.',
+                D05: 'Ngôn ngữ Đức; các trường ngoại ngữ chuyên.',
+                D06: 'Ngôn ngữ Nhật; ĐH Cần Thơ, FPT.',
+                D07: 'CNTT, Kinh tế, Kỹ thuật; ĐH Cần Thơ, NCTU, FPT CT.',
+                D08: 'Sinh, Môi trường, Y sinh; ĐH Cần Thơ.',
+                H: 'Mỹ thuật, Thiết kế đồ họa; trường có khối H.',
+                V: 'Kiến trúc, Quy hoạch; trường có khối V.',
+                M: 'Sư phạm Mầm non; trường có khối M.',
+                N: 'Thanh nhạc, SP âm nhạc; Nhạc viện/ĐH SP nghệ thuật.',
+                T: 'Giáo dục thể chất, Huấn luyện thể thao; trường TDTT.',
+                S: 'Sân khấu, điện ảnh; trường Sân khấu Điện ảnh.',
+                R: 'Báo chí, truyền thông; trường có khối R.'
+            };
 
             const subjectsContainer = document.getElementById('admission-subjects');
             const comboSelect = document.getElementById('combo-select');
@@ -2004,6 +2064,10 @@
                 return hit ? hit.text : '';
             }
 
+            function suggestComboText(combo) {
+                return suggestByCombo[combo] || '';
+            }
+
             comboSelect?.addEventListener('change', (e) => renderSubjects(e.target.value));
 
             document.getElementById('btn-calc')?.addEventListener('click', () => {
@@ -2021,7 +2085,7 @@
                 const total = scores.reduce((a, b) => a + b, 0);
                 const card = document.createElement('div');
                 card.className = 'admission-card';
-                card.innerHTML = `<h4>Khối ${combo}</h4><p>Điểm: <strong>${total.toFixed(1)}</strong></p><p>${suggestText(total)}</p>`;
+                card.innerHTML = `<h4>Khối ${combo}</h4><p>Điểm: <strong>${total.toFixed(1)}</strong></p><p>${suggestText(total)}</p><p>${suggestComboText(combo)}</p>`;
                 resultEl.appendChild(card);
             });
 
