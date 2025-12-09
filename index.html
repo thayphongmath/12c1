@@ -2006,34 +2006,34 @@
                 { min: 25, max: 40, text: 'ĐH Cần Thơ các ngành hot (CNTT, Kinh tế, QTKD), NCTU/FPT CT chương trình chất lượng cao.' }
             ];
 
-            const suggestByCombo = {
-                A00: 'CNTT, Cơ khí, Điện-Điện tử, Kinh tế; ĐH Cần Thơ, NCTU, FPT CT.',
-                A01: 'CNTT, KH máy tính, Kinh tế, Logistics; ĐH Cần Thơ, NCTU.',
-                A02: 'Kỹ thuật môi trường, Kỹ thuật sinh học; ĐH Cần Thơ.',
-                B00: 'Y, Dược, Điều dưỡng, CNSH; ĐHYDCT, ĐH Cần Thơ.',
-                B03: 'Sinh học ứng dụng, Công nghệ sinh học; ĐH vùng.',
-                B08: 'Sinh học, Môi trường, Ngoại ngữ; ĐH Cần Thơ.',
-                C00: 'Báo chí, Luật, SP XH, Du lịch; ĐH Cần Thơ, ĐH Trà Vinh.',
-                C01: 'Luật, Quản trị, Báo chí; ĐH Cần Thơ.',
-                C03: 'Sư phạm, Luật; ĐH Cần Thơ.',
-                C04: 'Du lịch, Quản trị; ĐH Cần Thơ.',
-                C19: 'Luật, Quản trị; ĐH vùng.',
-                C20: 'Du lịch, Văn hóa; ĐH vùng.',
-                D01: 'Kinh tế, Ngoại ngữ, CNTT; ĐH Cần Thơ, FPT CT.',
-                D02: 'Ngôn ngữ Nga; ít trường, cân nhắc chuyên ngoại ngữ.',
-                D03: 'Ngôn ngữ Pháp; ĐH KHXH&NV (tham khảo), các chương trình song ngữ.',
-                D04: 'Ngôn ngữ Trung; ĐH Cần Thơ, ĐH Mở.',
-                D05: 'Ngôn ngữ Đức; các trường ngoại ngữ chuyên.',
-                D06: 'Ngôn ngữ Nhật; ĐH Cần Thơ, FPT.',
-                D07: 'CNTT, Kinh tế, Kỹ thuật; ĐH Cần Thơ, NCTU, FPT CT.',
-                D08: 'Sinh, Môi trường, Y sinh; ĐH Cần Thơ.',
-                H: 'Mỹ thuật, Thiết kế đồ họa; trường có khối H.',
-                V: 'Kiến trúc, Quy hoạch; trường có khối V.',
-                M: 'Sư phạm Mầm non; trường có khối M.',
-                N: 'Thanh nhạc, SP âm nhạc; Nhạc viện/ĐH SP nghệ thuật.',
-                T: 'Giáo dục thể chất, Huấn luyện thể thao; trường TDTT.',
-                S: 'Sân khấu, điện ảnh; trường Sân khấu Điện ảnh.',
-                R: 'Báo chí, truyền thông; trường có khối R.'
+            const suggestMajors = {
+                A00: 'CNTT, Cơ khí, Điện-Điện tử, Kỹ thuật, Kinh tế',
+                A01: 'CNTT, KH máy tính, Kinh tế, Logistics',
+                A02: 'Kỹ thuật môi trường, CNSH ứng dụng',
+                B00: 'Y, Dược, Điều dưỡng, CNSH',
+                B03: 'CNSH, Môi trường, SP Sinh',
+                B08: 'Sinh, Môi trường, Y sinh',
+                C00: 'Báo chí, Luật, SP XH, Du lịch',
+                C01: 'Luật, Quản trị, Báo chí',
+                C03: 'Sư phạm, Luật',
+                C04: 'Du lịch, Quản trị',
+                C19: 'Luật, Quản trị, GDCD',
+                C20: 'Du lịch, Văn hóa, GDCD',
+                D01: 'Kinh tế, Ngoại ngữ, CNTT',
+                D02: 'Ngôn ngữ Nga',
+                D03: 'Ngôn ngữ Pháp',
+                D04: 'Ngôn ngữ Trung',
+                D05: 'Ngôn ngữ Đức',
+                D06: 'Ngôn ngữ Nhật',
+                D07: 'CNTT, Kinh tế, Kỹ thuật',
+                D08: 'Sinh, Môi trường, Y sinh',
+                H: 'Mỹ thuật, Thiết kế đồ họa',
+                V: 'Kiến trúc, Quy hoạch',
+                M: 'Sư phạm Mầm non',
+                N: 'Thanh nhạc, SP âm nhạc',
+                T: 'Giáo dục thể chất, Huấn luyện thể thao',
+                S: 'Sân khấu, Điện ảnh',
+                R: 'Báo chí, Truyền thông'
             };
 
             const subjectsContainer = document.getElementById('admission-subjects');
@@ -2065,7 +2065,38 @@
             }
 
             function suggestComboText(combo) {
-                return suggestByCombo[combo] || '';
+                return suggestMajors[combo] || '';
+            }
+
+            function suggestSchoolsSouth(score, combo) {
+                const upper = score;
+                let base = '';
+                if (upper < 20) {
+                    base = 'ĐH địa phương/ngoài công lập: TVU, KGU, TGU, ĐH Đồng Tháp, Tây Đô.';
+                } else if (upper < 22) {
+                    base = 'ĐH vùng ĐBSCL: CTU (một số ngành), AGU, NCTU, FPT Cần Thơ (xét học bạ); TVU, KGU.';
+                } else if (upper < 25) {
+                    base = 'CTU đa số ngành; AGU; NCTU; FPT Cần Thơ; SPKT HCM (ngành trung); UEH hệ chuẩn; UFM.';
+                } else {
+                    base = 'Top miền Nam: BK HCM, KHTN HCM, CTU ngành hot/CLC, SPKT HCM ngành hot, FTU HCM, UEH CLC, Y Dược (nếu khối B đủ điểm), FPT ĐH.';
+                }
+
+                // Điều chỉnh nhẹ cho khối B (Y/Dược) và năng khiếu
+                if (['B00', 'B03', 'B08'].includes(combo)) {
+                    if (upper >= 26.5) {
+                        base = 'Y Dược: ĐH Y Dược TP.HCM, Khoa Y ĐHQG HCM, ĐH Y Dược Cần Thơ (ngành hot).';
+                    } else if (upper >= 23) {
+                        base = 'Y Dược: ĐH Y Dược Cần Thơ, HV YHCT, Y Dược Thái Bình/Hải Phòng (tham khảo).';
+                    } else {
+                        base = 'Xem Y tế công cộng, Điều dưỡng, Xét nghiệm tại ĐH vùng; Nông Lâm (Sinh/TP).';
+                    }
+                }
+
+                if (['H', 'V', 'M', 'N', 'T', 'S', 'R'].includes(combo)) {
+                    base = 'Trường năng khiếu miền Nam: ĐH Kiến trúc HCM (V/H), Mỹ thuật CN, SPKT HCM (V/H); Sư phạm HCM (M/N), Nhạc viện HCM (N), SKĐA HCM (S), TDTT (T).';
+                }
+
+                return base;
             }
 
             comboSelect?.addEventListener('change', (e) => renderSubjects(e.target.value));
@@ -2085,7 +2116,10 @@
                 const total = scores.reduce((a, b) => a + b, 0);
                 const card = document.createElement('div');
                 card.className = 'admission-card';
-                card.innerHTML = `<h4>Khối ${combo}</h4><p>Điểm: <strong>${total.toFixed(1)}</strong></p><p>${suggestText(total)}</p><p>${suggestComboText(combo)}</p>`;
+                card.innerHTML = `<h4>Khối ${combo}</h4>
+                    <p>Điểm: <strong>${total.toFixed(1)}</strong></p>
+                    <p><strong>Ngành phù hợp:</strong> ${suggestComboText(combo)}</p>
+                    <p><strong>Gợi ý trường (miền Nam):</strong> ${suggestSchoolsSouth(total, combo)}</p>`;
                 resultEl.appendChild(card);
             });
 
