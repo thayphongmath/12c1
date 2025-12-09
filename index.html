@@ -1528,8 +1528,24 @@
                 }
             });
 
-            const finalIdx = chosenIdx !== -1 ? chosenIdx : closestIdx;
-            return finalIdx !== -1 ? finalIdx + 1 : null; // 1-based
+            let finalIdx = chosenIdx !== -1 ? chosenIdx : closestIdx;
+            if (finalIdx === -1) return null;
+
+            // Áp dụng quy tắc: nếu đang ở tuần 14 nhưng chưa qua 10h thứ 6 tuần 14 thì hiển thị đến tuần 13
+            let weekNum = finalIdx + 1; // 1-based
+            if (weekNum === 14) {
+                const start = extractStartDate(WEEK_RANGES[weekNum - 1]);
+                if (start instanceof Date && !isNaN(start)) {
+                    const cutoff = new Date(start);
+                    cutoff.setDate(cutoff.getDate() + 4); // Thứ 6
+                    cutoff.setHours(10, 0, 0, 0);
+                    if (today < cutoff) {
+                        weekNum = 13;
+                    }
+                }
+            }
+
+            return weekNum;
         }
 
         function parseCsv(text) {
