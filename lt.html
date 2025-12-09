@@ -283,42 +283,6 @@
             "từ ngày 18/5/2026 đến 23/5/2026"
         ];
 
-        function parseVNDate(str) {
-            const [d, m, y] = str.split('/').map(Number);
-            return new Date(y, m - 1, d);
-        }
-
-        function setCurrentWeek() {
-            const today = new Date();
-            let selectedIdx = -1;
-            let closestIdx = -1;
-            let closestDiff = Infinity;
-
-            weekRanges.forEach((range, idx) => {
-                const match = range.match(/từ ngày\s*([\d/]+)\s*đến\s*([\d/]+)/i);
-                if (!match) return;
-                const start = parseVNDate(match[1]);
-                const end = parseVNDate(match[2]);
-                // giữa tuần
-                if (today >= start && today <= end) {
-                    selectedIdx = idx;
-                }
-                // chọn tuần gần nhất
-                const diff = Math.min(Math.abs(today - start), Math.abs(today - end));
-                if (diff < closestDiff) {
-                    closestDiff = diff;
-                    closestIdx = idx;
-                }
-            });
-
-            const finalIdx = selectedIdx !== -1 ? selectedIdx : closestIdx;
-            if (finalIdx !== -1) {
-                const weekInput = document.getElementById('week');
-                weekInput.value = finalIdx + 1;
-                updateWeekDateRange();
-            }
-        }
-
         function updateWeekDateRange() {
             const weekInput = document.getElementById('week').value;
             const weekDateRange = document.getElementById('week_date_range');
@@ -400,9 +364,6 @@
                     submitButton.textContent = 'Gửi Dữ Liệu';
                 });
         });
-
-        // Chọn tuần gần nhất theo thời gian thực khi load trang
-        setCurrentWeek();
     </script>
 </body>
 
