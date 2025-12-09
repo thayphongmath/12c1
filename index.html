@@ -2092,6 +2092,8 @@
 
             const subjectsContainer = document.getElementById('admission-subjects');
             const comboSelect = document.getElementById('combo-select');
+            const comboSelectC = document.getElementById('combo-c-select');
+            let currentCombo = (comboSelect && comboSelect.value) || 'A00';
 
             function renderSubjects(comboKey) {
                 const subs = combos[comboKey] || [];
@@ -2155,19 +2157,24 @@
                 return base;
             }
 
-            comboSelect?.addEventListener('change', (e) => renderSubjects(e.target.value));
+            comboSelect?.addEventListener('change', (e) => {
+                currentCombo = e.target.value;
+                renderSubjects(currentCombo);
+                document.getElementById('admission-result').innerHTML = '';
+            });
 
-            const comboSelectC = document.getElementById('combo-c-select');
             comboSelectC?.addEventListener('change', (e) => {
                 const val = e.target.value;
                 if (val && combos[val]) {
-                    comboSelect.value = val;
+                    currentCombo = val;
                     renderSubjects(val);
+                    // không cần option tồn tại trong comboSelect
+                    document.getElementById('admission-result').innerHTML = '';
                 }
             });
 
             document.getElementById('btn-calc')?.addEventListener('click', () => {
-                const combo = comboSelect.value;
+                const combo = currentCombo;
                 const subs = combos[combo] || [];
                 const scores = subs.map(s => getScoreInput(s));
                 const resultEl = document.getElementById('admission-result');
@@ -2194,9 +2201,7 @@
             });
 
             // init
-            if (comboSelect) {
-                renderSubjects(comboSelect.value);
-            }
+            renderSubjects(currentCombo);
         })();
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
