@@ -1524,10 +1524,24 @@
                         style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.08);color:#fff;font-weight:700;">
                         <option value="A00">A00 (Toán, Lý, Hóa)</option>
                         <option value="A01">A01 (Toán, Lý, Anh)</option>
+                        <option value="A02">A02 (Toán, Lý, Sinh)</option>
                         <option value="B00">B00 (Toán, Hóa, Sinh)</option>
+                        <option value="B03">B03 (Toán, Sinh, Văn)</option>
+                        <option value="B08">B08 (Toán, Sinh, Anh)</option>
                         <option value="C00">C00 (Văn, Sử, Địa)</option>
+                        <option value="C01">C01 (Văn, Toán, Lý)</option>
+                        <option value="C03">C03 (Văn, Toán, Sử)</option>
+                        <option value="C04">C04 (Văn, Toán, Địa)</option>
+                        <option value="C19">C19 (Văn, Sử, GDCD)</option>
+                        <option value="C20">C20 (Văn, Địa, GDCD)</option>
                         <option value="D01">D01 (Toán, Văn, Anh)</option>
+                        <option value="D02">D02 (Toán, Văn, Nga)</option>
+                        <option value="D03">D03 (Toán, Văn, Pháp)</option>
+                        <option value="D04">D04 (Toán, Văn, Trung)</option>
+                        <option value="D05">D05 (Toán, Văn, Đức)</option>
+                        <option value="D06">D06 (Toán, Văn, Nhật)</option>
                         <option value="D07">D07 (Toán, Hóa, Anh)</option>
+                        <option value="D08">D08 (Toán, Sinh, Anh)</option>
                     </select>
                 </div>
                 <div id="admission-subjects"
@@ -1904,10 +1918,24 @@
             const combos = {
                 A00: ['toan', 'ly', 'hoa'],
                 A01: ['toan', 'ly', 'anh'],
+                A02: ['toan', 'ly', 'sinh'],
                 B00: ['toan', 'hoa', 'sinh'],
+                B03: ['toan', 'sinh', 'van'],
+                B08: ['toan', 'sinh', 'anh'],
                 C00: ['van', 'su', 'dia'],
+                C01: ['van', 'toan', 'ly'],
+                C03: ['van', 'toan', 'su'],
+                C04: ['van', 'toan', 'dia'],
+                C19: ['van', 'su', 'gdcd'],
+                C20: ['van', 'dia', 'gdcd'],
                 D01: ['toan', 'van', 'anh'],
-                D07: ['toan', 'hoa', 'anh']
+                D02: ['toan', 'van', 'nga'],
+                D03: ['toan', 'van', 'phap'],
+                D04: ['toan', 'van', 'trung'],
+                D05: ['toan', 'van', 'duc'],
+                D06: ['toan', 'van', 'nhat'],
+                D07: ['toan', 'hoa', 'anh'],
+                D08: ['toan', 'sinh', 'anh']
             };
 
             const subjectsLabel = {
@@ -1918,7 +1946,13 @@
                 van: 'Ngữ văn',
                 su: 'Lịch sử',
                 dia: 'Địa lý',
-                sinh: 'Sinh học'
+                sinh: 'Sinh học',
+                gdcd: 'GDCD',
+                nga: 'Tiếng Nga',
+                phap: 'Tiếng Pháp',
+                trung: 'Tiếng Trung',
+                duc: 'Tiếng Đức',
+                nhat: 'Tiếng Nhật'
             };
 
             const suggests = [
