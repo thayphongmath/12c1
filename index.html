@@ -842,6 +842,21 @@
             margin-bottom: 14px;
         }
 
+        #combo-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        #combo-select option {
+            background: #1f1c2c;
+            color: #fff;
+        }
+
         .admission-form label {
             display: block;
             font-weight: 600;
@@ -1520,8 +1535,7 @@
             <div class="admission-form">
                 <div>
                     <label for="combo-select">Chọn khối</label>
-                    <select id="combo-select"
-                        style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.08);color:#fff;font-weight:700;">
+                    <select id="combo-select">
                         <option value="A00">A00 (Toán, Lý, Hóa)</option>
                         <option value="A01">A01 (Toán, Lý, Anh)</option>
                         <option value="A02">A02 (Toán, Lý, Sinh)</option>
