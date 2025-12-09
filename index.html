@@ -842,7 +842,7 @@
             margin-bottom: 14px;
         }
 
-        #combo-select {
+        .combo-dropdown {
             width: 100%;
             padding: 10px;
             border-radius: 10px;
@@ -852,22 +852,7 @@
             font-weight: 700;
         }
 
-        #combo-select option {
-            background: #1f1c2c;
-            color: #fff;
-        }
-
-        #combo-c-select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            background: rgba(0, 0, 0, 0.25);
-            color: #fff;
-            font-weight: 700;
-        }
-
-        #combo-c-select option {
+        .combo-dropdown option {
             background: #1f1c2c;
             color: #fff;
         }
@@ -1559,40 +1544,19 @@
             <div class="admission-title"><i class="fas fa-calculator"></i> Tính điểm xét tuyển Đại học</div>
             <div class="admission-form">
                 <div>
-                    <label for="combo-select">Chọn khối</label>
-                    <select id="combo-select">
+                    <label for="combo-ab">Chọn khối A/B</label>
+                    <select id="combo-ab" class="combo-dropdown">
                         <option value="A00">A00 (Toán, Lý, Hóa)</option>
                         <option value="A01">A01 (Toán, Lý, Anh)</option>
                         <option value="A02">A02 (Toán, Lý, Sinh)</option>
                         <option value="B00">B00 (Toán, Hóa, Sinh)</option>
                         <option value="B03">B03 (Toán, Sinh, Văn)</option>
                         <option value="B08">B08 (Toán, Sinh, Anh)</option>
-                        <option value="C00">C00 (Văn, Sử, Địa)</option>
-                        <option value="C01">C01 (Văn, Toán, Lý)</option>
-                        <option value="C03">C03 (Văn, Toán, Sử)</option>
-                        <option value="C04">C04 (Văn, Toán, Địa)</option>
-                        <option value="C19">C19 (Văn, Sử, GDCD)</option>
-                        <option value="C20">C20 (Văn, Địa, GDCD)</option>
-                        <option value="D01">D01 (Toán, Văn, Anh)</option>
-                        <option value="D02">D02 (Toán, Văn, Nga)</option>
-                        <option value="D03">D03 (Toán, Văn, Pháp)</option>
-                        <option value="D04">D04 (Toán, Văn, Trung)</option>
-                        <option value="D05">D05 (Toán, Văn, Đức)</option>
-                        <option value="D06">D06 (Toán, Văn, Nhật)</option>
-                        <option value="D07">D07 (Toán, Hóa, Anh)</option>
-                        <option value="D08">D08 (Toán, Sinh, Anh)</option>
-                        <option value="H">H (Văn, Vẽ NK1, Vẽ NK2)</option>
-                        <option value="V">V (Toán, Lý, Vẽ mỹ thuật)</option>
-                        <option value="M">M (Toán, Văn, NK Mầm non)</option>
-                        <option value="N">N (Văn, NK Âm nhạc 1 & 2)</option>
-                        <option value="T">T (Toán, Sinh/Văn, NK TDTT)</option>
-                        <option value="S">S (Văn, NK Sân khấu/Điện ảnh)</option>
-                        <option value="R">R (Văn, Sử, NK Báo chí/Nghệ thuật)</option>
                     </select>
                 </div>
                 <div>
-                    <label for="combo-c-select">Chọn nhanh Khối C</label>
-                    <select id="combo-c-select">
+                    <label for="combo-c-select">Chọn khối C</label>
+                    <select id="combo-c-select" class="combo-dropdown">
                         <option value="">-- Chọn tổ hợp C --</option>
                         <option value="C00">C00 (Văn, Sử, Địa)</option>
                         <option value="C19">C19 (Văn, Sử, GDCD)</option>
@@ -1613,6 +1577,32 @@
                         <option value="C10">C10 (Văn, Hóa, Sử)</option>
                         <option value="C12">C12 (Văn, Sinh, Sử)</option>
                         <option value="C13">C13 (Văn, Sinh, Địa)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="combo-d">Chọn khối D</label>
+                    <select id="combo-d" class="combo-dropdown">
+                        <option value="D01">D01 (Toán, Văn, Anh)</option>
+                        <option value="D02">D02 (Toán, Văn, Nga)</option>
+                        <option value="D03">D03 (Toán, Văn, Pháp)</option>
+                        <option value="D04">D04 (Toán, Văn, Trung)</option>
+                        <option value="D05">D05 (Toán, Văn, Đức)</option>
+                        <option value="D06">D06 (Toán, Văn, Nhật)</option>
+                        <option value="D07">D07 (Toán, Hóa, Anh)</option>
+                        <option value="D08">D08 (Toán, Sinh, Anh)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="combo-nk">Chọn khối năng khiếu</label>
+                    <select id="combo-nk" class="combo-dropdown">
+                        <option value="">-- Chọn năng khiếu --</option>
+                        <option value="H">H (Văn, Vẽ NK1, Vẽ NK2)</option>
+                        <option value="V">V (Toán, Lý, Vẽ mỹ thuật)</option>
+                        <option value="M">M (Toán, Văn, NK Mầm non)</option>
+                        <option value="N">N (Văn, NK Âm nhạc 1 & 2)</option>
+                        <option value="T">T (Toán, Sinh/Văn, NK TDTT)</option>
+                        <option value="S">S (Văn, NK Sân khấu/Điện ảnh)</option>
+                        <option value="R">R (Văn, Sử, NK Báo chí/Nghệ thuật)</option>
                     </select>
                 </div>
                 <div id="admission-subjects"
@@ -2091,9 +2081,8 @@
             };
 
             const subjectsContainer = document.getElementById('admission-subjects');
-            const comboSelect = document.getElementById('combo-select');
-            const comboSelectC = document.getElementById('combo-c-select');
-            let currentCombo = (comboSelect && comboSelect.value) || 'A00';
+            const selects = Array.from(document.querySelectorAll('.combo-dropdown'));
+            let currentCombo = selects.find(s => s.value)?.value || 'A00';
 
             function renderSubjects(comboKey) {
                 const subs = combos[comboKey] || [];
@@ -2157,20 +2146,15 @@
                 return base;
             }
 
-            comboSelect?.addEventListener('change', (e) => {
-                currentCombo = e.target.value;
-                renderSubjects(currentCombo);
-                document.getElementById('admission-result').innerHTML = '';
-            });
-
-            comboSelectC?.addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (val && combos[val]) {
-                    currentCombo = val;
-                    renderSubjects(val);
-                    // không cần option tồn tại trong comboSelect
-                    document.getElementById('admission-result').innerHTML = '';
-                }
+            selects.forEach(sel => {
+                sel.addEventListener('change', (e) => {
+                    const val = e.target.value;
+                    if (val && combos[val]) {
+                        currentCombo = val;
+                        renderSubjects(val);
+                        document.getElementById('admission-result').innerHTML = '';
+                    }
+                });
             });
 
             document.getElementById('btn-calc')?.addEventListener('click', () => {
