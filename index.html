@@ -1546,11 +1546,30 @@
                 <div>
                     <label for="combo-ab">Chọn khối A/B</label>
                     <select id="combo-ab" class="combo-dropdown">
+                        <option value="">-- Chọn tổ hợp A/B --</option>
                         <option value="A00">A00 (Toán, Lý, Hóa)</option>
                         <option value="A01">A01 (Toán, Lý, Anh)</option>
                         <option value="A02">A02 (Toán, Lý, Sinh)</option>
+                        <option value="A03">A03 (Toán, Lý, Sử)</option>
+                        <option value="A04">A04 (Toán, Lý, Địa)</option>
+                        <option value="A05">A05 (Toán, Hóa, Sử)</option>
+                        <option value="A06">A06 (Toán, Hóa, Địa)</option>
+                        <option value="A07">A07 (Toán, Sử, Địa)</option>
+                        <option value="A08">A08 (Toán, Sử, GDCD)</option>
+                        <option value="A09">A09 (Toán, Địa, GDCD)</option>
+                        <option value="A10">A10 (Toán, Lý, GDCD)</option>
+                        <option value="A11">A11 (Toán, Hóa, GDCD)</option>
+                        <option value="A12">A12 (Toán, KHTN, KHXH)</option>
+                        <option value="A14">A14 (Toán, KHTN, Địa)</option>
+                        <option value="A15">A15 (Toán, KHTN, GDCD)</option>
+                        <option value="A16">A16 (Toán, KHTN, Văn)</option>
+                        <option value="A18">A18 (Toán, Hóa, KHXH)</option>
                         <option value="B00">B00 (Toán, Hóa, Sinh)</option>
+                        <option value="B01">B01 (Toán, Sinh, Sử)</option>
+                        <option value="B02">B02 (Toán, Sinh, Địa)</option>
                         <option value="B03">B03 (Toán, Sinh, Văn)</option>
+                        <option value="B04">B04 (Toán, Sinh, GDCD)</option>
+                        <option value="B05">B05 (Toán, Sinh, KHXH)</option>
                         <option value="B08">B08 (Toán, Sinh, Anh)</option>
                     </select>
                 </div>
@@ -1582,6 +1601,7 @@
                 <div>
                     <label for="combo-d">Chọn khối D</label>
                     <select id="combo-d" class="combo-dropdown">
+                        <option value="">-- Chọn tổ hợp D --</option>
                         <option value="D01">D01 (Toán, Văn, Anh)</option>
                         <option value="D02">D02 (Toán, Văn, Nga)</option>
                         <option value="D03">D03 (Toán, Văn, Pháp)</option>
@@ -1988,8 +2008,26 @@
                 A00: ['toan', 'ly', 'hoa'],
                 A01: ['toan', 'ly', 'anh'],
                 A02: ['toan', 'ly', 'sinh'],
+                A03: ['toan', 'ly', 'su'],
+                A04: ['toan', 'ly', 'dia'],
+                A05: ['toan', 'hoa', 'su'],
+                A06: ['toan', 'hoa', 'dia'],
+                A07: ['toan', 'su', 'dia'],
+                A08: ['toan', 'su', 'gdcd'],
+                A09: ['toan', 'dia', 'gdcd'],
+                A10: ['toan', 'ly', 'gdcd'],
+                A11: ['toan', 'hoa', 'gdcd'],
+                A12: ['toan', 'khtn', 'khxh'],
+                A14: ['toan', 'khtn', 'dia'],
+                A15: ['toan', 'khtn', 'gdcd'],
+                A16: ['toan', 'khtn', 'van'],
+                A18: ['toan', 'hoa', 'khxh'],
                 B00: ['toan', 'hoa', 'sinh'],
+                B01: ['toan', 'sinh', 'su'],
+                B02: ['toan', 'sinh', 'dia'],
                 B03: ['toan', 'sinh', 'van'],
+                B04: ['toan', 'sinh', 'gdcd'],
+                B05: ['toan', 'sinh', 'khxh'],
                 B08: ['toan', 'sinh', 'anh'],
                 C00: ['van', 'su', 'dia'],
                 C01: ['van', 'toan', 'ly'],
@@ -2046,6 +2084,7 @@
                 sinh: 'Sinh học',
                 gdcd: 'GDCD',
                 khxh: 'KHXH',
+                khtn: 'KHTN',
                 nga: 'Tiếng Nga',
                 phap: 'Tiếng Pháp',
                 trung: 'Tiếng Trung',
@@ -2070,8 +2109,26 @@
                 A00: 'CNTT, Cơ khí, Điện-Điện tử, Kỹ thuật, Kinh tế',
                 A01: 'CNTT, KH máy tính, Kinh tế, Logistics',
                 A02: 'Kỹ thuật môi trường, CNSH ứng dụng',
+                A03: 'Kỹ thuật/CNTT/Kinh tế; phù hợp thí sinh mạnh Lý+Sử',
+                A04: 'Kỹ thuật/CNTT/Kinh tế; thí sinh mạnh Lý+Địa',
+                A05: 'Kỹ thuật/CNTT/Kinh tế; thí sinh mạnh Hóa+Sử',
+                A06: 'Kỹ thuật/CNTT/Kinh tế; thí sinh mạnh Hóa+Địa',
+                A07: 'Toán-Sử-Địa: chủ yếu Kinh tế, QTKD, Luật, Du lịch (một số trường)',
+                A08: 'Toán-Sử-GDCD: một số ngành Kinh tế/QLNN/GDCD ở trường địa phương',
+                A09: 'Toán-Địa-GDCD: một số ngành QL đất đai, Kinh tế tài nguyên, GDCD',
+                A10: 'Toán-Lý-GDCD: ngành hiếm; vài ngành kỹ thuật/QLNN ở trường địa phương',
+                A11: 'Toán-Hóa-GDCD: ngành hiếm; vài ngành CNTP/Môi trường/QLNN (trường địa phương)',
+                A12: 'Toán-KHTN-KHXH: tổ hợp tích hợp; xét hạn chế ở một số trường mở rộng',
+                A14: 'Toán-KHTN-Địa: một số ngành tài nguyên, môi trường, kinh tế địa phương',
+                A15: 'Toán-KHTN-GDCD: rất hiếm; vài ngành GDCD/QLNN',
+                A16: 'Toán-KHTN-Văn: tích hợp; một số ngành SP tích hợp/QL giáo dục',
+                A18: 'Toán-Hóa-KHXH: hiếm; có thể vào CNTP/Môi trường/Kinh tế ứng dụng',
                 B00: 'Y, Dược, Điều dưỡng, CNSH',
+                B01: 'Toán-Sinh-Sử: hiếm; một số Y tế công cộng/CTXH/giáo dục',
+                B02: 'Toán-Sinh-Địa: hiếm; một số tài nguyên, môi trường, nông lâm',
                 B03: 'CNSH, Môi trường, SP Sinh',
+                B04: 'Toán-Sinh-GDCD: hiếm; một số GDCD/QLNN ở trường địa phương',
+                B05: 'Toán-Sinh-KHXH: hiếm; một số CTXH/giáo dục/môi trường',
                 B08: 'Sinh, Môi trường, Y sinh',
                 C00: 'Luật; Báo chí/PR/Truyền thông; Sư phạm Văn/Sử/Địa/tiểu học/mầm non; Du lịch-VH; Tâm lý/CTXH',
                 C01: 'CNTT/Kỹ thuật (một số trường); Quản trị/Kế toán/Tài chính; SP kỹ thuật; GD tiểu học',
@@ -2119,6 +2176,7 @@
 
             const subjectsContainer = document.getElementById('admission-subjects');
             const selects = Array.from(document.querySelectorAll('.combo-dropdown'));
+            // ưu tiên chọn mục đầu tiên có value; nếu là placeholder rỗng thì fallback A00
             let currentCombo = selects.find(s => s.value)?.value || 'A00';
 
             function renderSubjects(comboKey) {
@@ -2190,6 +2248,8 @@
                         currentCombo = val;
                         renderSubjects(val);
                         document.getElementById('admission-result').innerHTML = '';
+                    } else if (!val && (sel.id === 'combo-d' || sel.id === 'combo-ab')) {
+                        // nếu chọn placeholder khối D hoặc A/B thì không đổi currentCombo
                     }
                 });
             });
