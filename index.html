@@ -1624,13 +1624,41 @@
                     <label for="combo-nk">Chọn khối năng khiếu</label>
                     <select id="combo-nk" class="combo-dropdown">
                         <option value="">-- Chọn năng khiếu --</option>
-                        <option value="H">H (Văn, Vẽ NK1, Vẽ NK2)</option>
-                        <option value="V">V (Toán, Lý, Vẽ mỹ thuật)</option>
-                        <option value="M">M (Toán, Văn, NK Mầm non)</option>
-                        <option value="N">N (Văn, NK Âm nhạc 1 & 2)</option>
-                        <option value="T">T (Toán, Sinh/Văn, NK TDTT)</option>
-                        <option value="S">S (Văn, NK Sân khấu/Điện ảnh)</option>
-                        <option value="R">R (Văn, Sử, NK Báo chí/Nghệ thuật)</option>
+                        <optgroup label="Khối V (Kiến trúc)">
+                            <option value="V00">V00 (Toán, Lý, Vẽ)</option>
+                            <option value="V01">V01 (Toán, Văn, Vẽ)</option>
+                            <option value="V02">V02 (Toán, Anh, Vẽ)</option>
+                        </optgroup>
+                        <optgroup label="Khối H (Mỹ thuật/Thiết kế)">
+                            <option value="H00">H00 (Văn, NK1, NK2)</option>
+                            <option value="H01">H01 (Toán, Văn, Vẽ)</option>
+                            <option value="H02">H02 (Toán, Anh, Vẽ)</option>
+                            <option value="H03">H03 (Văn, Anh, Vẽ)</option>
+                            <option value="H04">H04 (Toán, NK1, NK2)</option>
+                            <option value="H05">H05 (Văn, NK1, NK2)</option>
+                            <option value="H06">H06 (Anh, NK1, NK2)</option>
+                            <option value="H07">H07 (Toán, Anh, NK2)</option>
+                            <option value="H08">H08 (Văn, Anh, NK2)</option>
+                        </optgroup>
+                        <optgroup label="Khối M (Mầm non)">
+                            <option value="M00">M00 (Văn, Toán, NK Mầm non)</option>
+                            <option value="M01">M01 (Văn, Sử, NK Mầm non)</option>
+                            <option value="M02">M02 (Toán, Anh, NK Mầm non)</option>
+                        </optgroup>
+                        <optgroup label="Khối N (Âm nhạc)">
+                            <option value="N00">N00 (Văn, NK1, NK2 Âm nhạc)</option>
+                        </optgroup>
+                        <optgroup label="Khối S (Sân khấu - Điện ảnh)">
+                            <option value="S00">S00 (Văn, NK1, NK2 SKĐA)</option>
+                            <option value="S01">S01 (Toán, Văn, NK SKĐA)</option>
+                        </optgroup>
+                        <optgroup label="Khối T (Thể thao)">
+                            <option value="T00">T00 (Toán, Sinh, NK TDTT)</option>
+                            <option value="T01">T01 (Toán, Văn, NK TDTT)</option>
+                        </optgroup>
+                        <optgroup label="Khối R (Quản lý VH/Báo chí)">
+                            <option value="R00">R00 (Văn, Sử, NK Văn hóa/Báo chí)</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div id="admission-subjects"
@@ -2064,13 +2092,27 @@
                 D14: ['van', 'su', 'anh'],
                 D15: ['van', 'dia', 'anh'],
                 D78: ['van', 'khxh', 'anh'],
-                H: ['van', 've1', 've2'],
-                V: ['toan', 'ly', 've'],
-                M: ['toan', 'van', 'nk'],
-                N: ['van', 'nk1', 'nk2'],
-                T: ['toan', 'sinh', 'nk'],
-                S: ['van', 'nk1', 'nk2'],
-                R: ['van', 'su', 'nk']
+                V00: ['toan', 'ly', 've'],
+                V01: ['toan', 'van', 've'],
+                V02: ['toan', 'anh', 've'],
+                H00: ['van', 've1', 've2'],
+                H01: ['toan', 'van', 've'],
+                H02: ['toan', 'anh', 've'],
+                H03: ['van', 'anh', 've'],
+                H04: ['toan', 've1', 've2'],
+                H05: ['van', 've1', 've2'],
+                H06: ['anh', 've1', 've2'],
+                H07: ['toan', 'anh', 've2'],
+                H08: ['van', 'anh', 've2'],
+                M00: ['van', 'toan', 'nk'],
+                M01: ['van', 'su', 'nk'],
+                M02: ['toan', 'anh', 'nk'],
+                N00: ['van', 'nk1', 'nk2'],
+                S00: ['van', 'nk1', 'nk2'],
+                S01: ['toan', 'van', 'nk'],
+                T00: ['toan', 'sinh', 'nk'],
+                T01: ['toan', 'van', 'nk'],
+                R00: ['van', 'su', 'nk']
             };
 
             const subjectsLabel = {
@@ -2165,13 +2207,27 @@
                 D14: 'Văn-Sử-Anh: Báo chí, PR, Việt Nam học, Du lịch',
                 D15: 'Văn-Địa-Anh: Du lịch, Địa lý du lịch, Quản lý đất đai, BĐS',
                 D78: 'Văn-KHXH-Anh: PR/Truyền thông, Việt Nam học, Du lịch',
-                H: 'Mỹ thuật, Thiết kế đồ họa',
-                V: 'Kiến trúc, Quy hoạch',
-                M: 'Sư phạm Mầm non',
-                N: 'Thanh nhạc, SP âm nhạc',
-                T: 'Giáo dục thể chất, Huấn luyện thể thao',
-                S: 'Sân khấu, Điện ảnh',
-                R: 'Báo chí, Truyền thông'
+                V00: 'Kiến trúc/Quy hoạch; Thiết kế nội thất (thiên kỹ thuật); Đô thị học',
+                V01: 'Kiến trúc/Quy hoạch; Thiết kế nội thất; ưu tiên Văn',
+                V02: 'Kiến trúc/Quy hoạch; Thiết kế nội thất; lợi thế Anh',
+                H00: 'Thiết kế đồ họa/Thời trang/Nội thất; Mỹ thuật CN; Hội họa/Điêu khắc; SP Mỹ thuật',
+                H01: 'Thiết kế đồ họa/Nội thất (cần Toán); SP Mỹ thuật',
+                H02: 'Thiết kế đồ họa/Nội thất (Toán+Anh+Vẽ)',
+                H03: 'Thiết kế đồ họa/Nội thất (Văn+Anh+Vẽ)',
+                H04: 'Mỹ thuật CN/Hội họa/Điêu khắc (thi 2 NK, Toán)',
+                H05: 'Mỹ thuật CN/Hội họa/Điêu khắc (thi 2 NK, Văn)',
+                H06: 'Mỹ thuật CN/Hội họa/Điêu khắc (thi 2 NK, Anh)',
+                H07: 'Thiết kế đồ họa (Toán+Anh+NK2)',
+                H08: 'Thiết kế đồ họa (Văn+Anh+NK2)',
+                M00: 'Giáo dục Mầm non, Giáo dục đặc biệt',
+                M01: 'Giáo dục Mầm non (thi Văn, Sử, NK)',
+                M02: 'Giáo dục Mầm non (thi Toán, Anh, NK)',
+                N00: 'Thanh nhạc, Nhạc cụ (Piano/Tây/Truyền thống), SP Âm nhạc, Chỉ huy',
+                S00: 'Diễn viên/Đạo diễn/Quay phim/Biên kịch; Nhiếp ảnh nghệ thuật',
+                S01: 'Diễn viên/Đạo diễn/Quay phim (Toán+Văn+NK)',
+                T00: 'GD thể chất, Huấn luyện thể thao, Quản lý TDTT, Y sinh học TDTT',
+                T01: 'GD thể chất/Huấn luyện (Toán, Văn, NK TDTT)',
+                R00: 'Quản lý văn hóa/Thông tin cổ động; một số ngành Báo chí kiểm tra năng khiếu viết'
             };
 
             const subjectsContainer = document.getElementById('admission-subjects');
