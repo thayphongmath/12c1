@@ -812,6 +812,112 @@
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
         }
 
+        /* Admission calculator */
+        .admission-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+            color: #fff;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+        }
+
+        .admission-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .admission-title i {
+            font-size: 22px;
+        }
+
+        .admission-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .admission-form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .admission-form input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .admission-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .admission-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .admission-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-weight: 700;
+            color: #1f1c2c;
+            background: linear-gradient(135deg, #ffefba 0%, #ffffff 100%);
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease;
+        }
+
+        .admission-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .admission-result {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .admission-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        .admission-card h4 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .admission-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #e0e3ff;
+        }
+
+        .admission-note {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #e0e3ff;
+        }
+
         /* Countdown HK1 */
         .countdown-section {
             margin: 40px 0;
@@ -1409,6 +1515,39 @@
             </ul>
         </section>
 
+        <section class="admission-section">
+            <div class="admission-title"><i class="fas fa-calculator"></i> Tính điểm xét tuyển Đại học</div>
+            <div class="admission-form">
+                <div>
+                    <label for="score-toan">Toán</label>
+                    <input type="number" id="score-toan" placeholder="0 - 10" min="0" max="10" step="0.1">
+                </div>
+                <div>
+                    <label for="score-ly">Vật lý</label>
+                    <input type="number" id="score-ly" placeholder="0 - 10" min="0" max="10" step="0.1">
+                </div>
+                <div>
+                    <label for="score-hoa">Hóa</label>
+                    <input type="number" id="score-hoa" placeholder="0 - 10" min="0" max="10" step="0.1">
+                </div>
+                <div>
+                    <label for="score-anh">Tiếng Anh</label>
+                    <input type="number" id="score-anh" placeholder="0 - 10" min="0" max="10" step="0.1">
+                </div>
+                <div>
+                    <label for="score-van">Ngữ văn</label>
+                    <input type="number" id="score-van" placeholder="0 - 10" min="0" max="10" step="0.1">
+                </div>
+            </div>
+            <div class="admission-actions">
+                <button class="admission-btn" id="btn-calc">Tính điểm các tổ hợp</button>
+                <button class="admission-btn" id="btn-clear">Xóa nhập liệu</button>
+            </div>
+            <div class="admission-result" id="admission-result"></div>
+            <div class="admission-note">Nhập điểm theo thang 10. Hỗ trợ tổ hợp A00 (Toán, Lý, Hóa), A01 (Toán, Lý,
+                Anh), D01 (Toán, Văn, Anh), D07 (Toán, Hóa, Anh). Gợi ý trường dựa trên mức điểm.</div>
+        </section>
+
         <section class="memories-section">
             <div class="memory-card"
                 style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
@@ -1764,6 +1903,68 @@
 
         renderCountdown();
         setInterval(renderCountdown, 1000);
+
+        // ========== ADMISSION CALCULATOR ==========
+        (function () {
+            const combos = {
+                A00: ['toan', 'ly', 'hoa'],
+                A01: ['toan', 'ly', 'anh'],
+                D01: ['toan', 'van', 'anh'],
+                D07: ['toan', 'hoa', 'anh']
+            };
+
+            const suggests = [
+                { min: 0, max: 18, text: 'Nên tham khảo cao đẳng, ĐH địa phương / chương trình đại trà.' },
+                { min: 18, max: 22, text: 'Phù hợp các ĐH tầm trung, ngành khối A/D phổ biến.' },
+                { min: 22, max: 25, text: 'Có thể xét các ĐH top khá (Kinh tế, CNTT, Kỹ thuật ở trường top giữa).' },
+                { min: 25, max: 40, text: 'Nhắm trường top cao (BK, KHTN, KTQD, FTU, NEU…) hoặc chương trình chất lượng cao.' }
+            ];
+
+            function getScore(id) {
+                const v = parseFloat(document.getElementById('score-' + id).value);
+                return isNaN(v) ? null : v;
+            }
+
+            function suggestText(score) {
+                const hit = suggests.find(s => score >= s.min && score < s.max);
+                return hit ? hit.text : '';
+            }
+
+            document.getElementById('btn-calc')?.addEventListener('click', () => {
+                const scores = {
+                    toan: getScore('toan'),
+                    ly: getScore('ly'),
+                    hoa: getScore('hoa'),
+                    anh: getScore('anh'),
+                    van: getScore('van')
+                };
+
+                const resultEl = document.getElementById('admission-result');
+                resultEl.innerHTML = '';
+
+                Object.entries(combos).forEach(([code, subs]) => {
+                    if (subs.every(s => scores[s] !== null)) {
+                        const total = subs.reduce((sum, s) => sum + scores[s], 0);
+                        const card = document.createElement('div');
+                        card.className = 'admission-card';
+                        const scoreText = total.toFixed(1);
+                        card.innerHTML = `<h4>Tổ hợp ${code}</h4><p>Điểm: <strong>${scoreText}</strong></p><p>${suggestText(total)}</p>`;
+                        resultEl.appendChild(card);
+                    }
+                });
+
+                if (!resultEl.children.length) {
+                    resultEl.innerHTML = '<div class="admission-card"><p>Vui lòng nhập đủ các môn cần thiết cho ít nhất một tổ hợp.</p></div>';
+                }
+            });
+
+            document.getElementById('btn-clear')?.addEventListener('click', () => {
+                ['toan', 'ly', 'hoa', 'anh', 'van'].forEach(id => {
+                    document.getElementById('score-' + id).value = '';
+                });
+                document.getElementById('admission-result').innerHTML = '';
+            });
+        })();
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
         const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
