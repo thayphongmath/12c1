@@ -857,6 +857,21 @@
             color: #fff;
         }
 
+        #combo-c-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        #combo-c-select option {
+            background: #1f1c2c;
+            color: #fff;
+        }
+
         .admission-suggestion {
             margin-top: 10px;
             font-size: 13px;
@@ -1575,6 +1590,31 @@
                         <option value="R">R (Văn, Sử, NK Báo chí/Nghệ thuật)</option>
                     </select>
                 </div>
+                <div>
+                    <label for="combo-c-select">Chọn nhanh Khối C</label>
+                    <select id="combo-c-select">
+                        <option value="">-- Chọn tổ hợp C --</option>
+                        <option value="C00">C00 (Văn, Sử, Địa)</option>
+                        <option value="C19">C19 (Văn, Sử, GDCD)</option>
+                        <option value="C20">C20 (Văn, Địa, GDCD)</option>
+                        <option value="C14">C14 (Văn, Toán, GDCD)</option>
+                        <option value="C15">C15 (Văn, Toán, KHXH)</option>
+                        <option value="C16">C16 (Văn, Lý, GDCD)</option>
+                        <option value="C17">C17 (Văn, Hóa, GDCD)</option>
+                        <option value="C01">C01 (Văn, Toán, Lý)</option>
+                        <option value="C02">C02 (Văn, Toán, Hóa)</option>
+                        <option value="C03">C03 (Văn, Toán, Sử)</option>
+                        <option value="C04">C04 (Văn, Toán, Địa)</option>
+                        <option value="C05">C05 (Văn, Lý, Hóa)</option>
+                        <option value="C06">C06 (Văn, Lý, Sinh)</option>
+                        <option value="C07">C07 (Văn, Lý, Sử)</option>
+                        <option value="C08">C08 (Văn, Hóa, Sinh)</option>
+                        <option value="C09">C09 (Văn, Lý, Địa)</option>
+                        <option value="C10">C10 (Văn, Hóa, Sử)</option>
+                        <option value="C12">C12 (Văn, Sinh, Sử)</option>
+                        <option value="C13">C13 (Văn, Sinh, Địa)</option>
+                    </select>
+                </div>
                 <div id="admission-subjects"
                     style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
                 </div>
@@ -1959,6 +1999,19 @@
                 C04: ['van', 'toan', 'dia'],
                 C19: ['van', 'su', 'gdcd'],
                 C20: ['van', 'dia', 'gdcd'],
+                C14: ['van', 'toan', 'gdcd'],
+                C15: ['van', 'toan', 'khxh'],
+                C16: ['van', 'ly', 'gdcd'],
+                C17: ['van', 'hoa', 'gdcd'],
+                C02: ['van', 'toan', 'hoa'],
+                C05: ['van', 'ly', 'hoa'],
+                C06: ['van', 'ly', 'sinh'],
+                C07: ['van', 'ly', 'su'],
+                C08: ['van', 'hoa', 'sinh'],
+                C09: ['van', 'ly', 'dia'],
+                C10: ['van', 'hoa', 'su'],
+                C12: ['van', 'sinh', 'su'],
+                C13: ['van', 'sinh', 'dia'],
                 D01: ['toan', 'van', 'anh'],
                 D02: ['toan', 'van', 'nga'],
                 D03: ['toan', 'van', 'phap'],
@@ -1986,6 +2039,7 @@
                 dia: 'Địa lý',
                 sinh: 'Sinh học',
                 gdcd: 'GDCD',
+                khxh: 'KHXH',
                 nga: 'Tiếng Nga',
                 phap: 'Tiếng Pháp',
                 trung: 'Tiếng Trung',
@@ -2094,6 +2148,8 @@
 
                 if (['H', 'V', 'M', 'N', 'T', 'S', 'R'].includes(combo)) {
                     base = 'Trường năng khiếu miền Nam: ĐH Kiến trúc HCM (V/H), Mỹ thuật CN, SPKT HCM (V/H); Sư phạm HCM (M/N), Nhạc viện HCM (N), SKĐA HCM (S), TDTT (T).';
+                } else if (combo.startsWith('C')) {
+                    base += ' Khối C: ưu tiên Luật/Báo chí/Sư phạm/Du lịch tại CTU, TVU, TGU; đủ điểm có thể nhắm ĐH Luật HCM, KHXH&NV HCM.';
                 }
 
                 return base;
