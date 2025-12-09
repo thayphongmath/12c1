@@ -1417,6 +1417,43 @@
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
         const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
+        const WEEK_RANGES = [
+            "từ ngày 8/9/2025 đến 13/9/2025",
+            "từ ngày 15/9/2025 đến 20/9/2025",
+            "từ ngày 22/9/2025 đến 27/9/2025",
+            "từ ngày 29/9/2025 đến 4/10/2025",
+            "từ ngày 6/10/2025 đến 11/10/2025",
+            "từ ngày 13/10/2025 đến 18/10/2025",
+            "từ ngày 20/10/2025 đến 25/10/2025",
+            "từ ngày 27/10/2025 đến 1/11/2025",
+            "từ ngày 3/11/2025 đến 8/11/2025",
+            "từ ngày 10/11/2025 đến 15/11/2025",
+            "từ ngày 17/11/2025 đến 22/11/2025",
+            "từ ngày 24/11/2025 đến 29/11/2025",
+            "từ ngày 1/12/2025 đến 6/12/2025",
+            "từ ngày 8/12/2025 đến 13/12/2025",
+            "từ ngày 15/12/2025 đến 20/12/2025",
+            "từ ngày 22/12/2025 đến 27/12/2025",
+            "từ ngày 29/12/2025 đến 3/1/2026",
+            "từ ngày 5/1/2026 đến 10/1/2026",
+            "từ ngày 12/1/2026 đến 17/1/2026",
+            "từ ngày 19/1/2026 đến 24/1/2026",
+            "từ ngày 26/1/2026 đến 31/1/2026",
+            "từ ngày 2/2/2026 đến 7/2/2026",
+            "từ ngày 9/2/2026 đến 14/2/2026",
+            "từ ngày 16/2/2026 đến 21/2/2026",
+            "từ ngày 23/2/2026 đến 28/2/2026",
+            "từ ngày 2/3/2026 đến 7/3/2026",
+            "từ ngày 9/3/2026 đến 14/3/2026",
+            "từ ngày 16/3/2026 đến 21/3/2026",
+            "từ ngày 23/3/2026 đến 28/3/2026",
+            "từ ngày 30/3/2026 đến 4/4/2026",
+            "từ ngày 6/4/2026 đến 11/4/2026",
+            "từ ngày 13/4/2026 đến 18/4/2026",
+            "từ ngày 20/4/2026 đến 25/4/2026",
+            "từ ngày 27/4/2026 đến 2/5/2026",
+            "từ ngày 18/5/2026 đến 23/5/2026"
+        ];
 
         function parseVNDate(str) {
             const parts = str.split('/').map(Number);
@@ -1431,6 +1468,33 @@
             const match = rangeStr.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
             if (!match) return null;
             return parseVNDate(match[1]);
+        }
+
+        function getCurrentWeekNumber() {
+            const today = new Date();
+            let chosenIdx = -1;
+            let closestIdx = -1;
+            let closestDiff = Infinity;
+
+            WEEK_RANGES.forEach((range, idx) => {
+                const match = range.match(/(\d{1,2}\/\d{1,2}\/\d{4}).*?(\d{1,2}\/\d{1,2}\/\d{4})/);
+                if (!match) return;
+                const start = parseVNDate(match[1]);
+                const end = parseVNDate(match[2]);
+                if (!start || !end) return;
+
+                if (today >= start && today <= end) {
+                    chosenIdx = idx;
+                }
+                const diff = Math.min(Math.abs(today - start), Math.abs(today - end));
+                if (diff < closestDiff) {
+                    closestDiff = diff;
+                    closestIdx = idx;
+                }
+            });
+
+            const finalIdx = chosenIdx !== -1 ? chosenIdx : closestIdx;
+            return finalIdx !== -1 ? finalIdx + 1 : null; // 1-based
         }
 
         function parseCsv(text) {
@@ -1482,18 +1546,29 @@
                 const headers = data[0];
                 let rows = data.slice(1).filter(r => r.some(cell => cell && cell.trim() !== ''));
 
-                // Lọc 5 tuần gần nhất theo ngày bắt đầu trong cột "Từ ngày đến ngày" (cột thứ 3)
-                const withDates = rows.map(r => {
-                    const start = extractStartDate(r[2]);
-                    return { row: r, start };
-                }).filter(x => x.start instanceof Date && !isNaN(x.start.getTime()));
+                // Lọc 5 tuần gần nhất dựa trên tuần hiện tại và số tuần (cột 1)
+                const currentWeek = getCurrentWeekNumber();
+                const rowsWithWeek = rows.map(r => {
+                    const wk = parseInt(r[0], 10);
+                    return { row: r, weekNum: isNaN(wk) ? null : wk };
+                });
 
-                if (withDates.length) {
-                    withDates.sort((a, b) => b.start - a.start);
-                    rows = withDates.slice(0, 5).map(x => x.row);
+                let filtered = rowsWithWeek;
+                if (currentWeek) {
+                    filtered = filtered.filter(x => x.weekNum !== null && x.weekNum <= currentWeek);
+                }
+
+                if (!filtered.length) {
+                    // fallback: dùng tất cả nếu không xác định được tuần
+                    filtered = rowsWithWeek.filter(x => x.weekNum !== null);
+                }
+
+                // Nếu vẫn rỗng, fallback lấy 5 dòng cuối
+                if (!filtered.length) {
+                    rows = rows.slice(-5);
                 } else {
-                    // fallback: lấy 5 dòng cuối nếu không parse được ngày
-                    if (rows.length > 5) rows = rows.slice(-5);
+                    filtered.sort((a, b) => (b.weekNum || 0) - (a.weekNum || 0));
+                    rows = filtered.slice(0, 5).map(x => x.row);
                 }
 
                 // Render header
