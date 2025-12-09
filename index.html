@@ -762,24 +762,32 @@
 
         /* Bảng xếp hạng tổ (iframe) */
         .ranking-embed {
-            position: relative;
             width: 100%;
             max-width: 100%;
-            overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             background: #fff;
+            overflow: hidden;
         }
 
-        .ranking-embed iframe {
+        .ranking-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            overscroll-behavior: contain;
+        }
+
+        .ranking-scroll iframe {
+            min-width: 980px;
             width: 100%;
+            height: 520px;
             border: 0;
-            height: 500px;
         }
 
         @media (max-width: 600px) {
-            .ranking-embed iframe {
-                height: 600px;
+            .ranking-scroll iframe {
+                min-width: 900px;
+                height: 620px;
             }
         }
 
@@ -1038,11 +1046,14 @@
         <section class="report-links">
             <h2><i class="fas fa-trophy"></i> Bảng xếp hạng Tổ</h2>
             <div class="ranking-embed">
-                <iframe
-                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pubhtml?gid=1367821958&single=true"
-                    loading="lazy"></iframe>
+                <div class="ranking-scroll">
+                    <iframe
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pubhtml?gid=1367821958&single=true"
+                        loading="lazy"></iframe>
+                </div>
             </div>
-            <p style="text-align:center;margin-top:10px;font-size:14px;color:#555;">Nguồn: Google Sheets</p>
+            <p style="text-align:center;margin-top:10px;font-size:14px;color:#555;">Vuốt ngang để xem đủ bảng • Nguồn:
+                Google Sheets</p>
         </section>
 
         <section class="report-links">
