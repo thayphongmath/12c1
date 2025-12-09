@@ -1374,6 +1374,49 @@
             </div>
         </section>
 
+        <section class="report-links">
+            <h2><i class="fas fa-gamepad"></i> Vòng Quay May mắn</h2>
+            <div
+                style="text-align:center; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div id="random-result"
+                    style="font-size: 24px; font-weight: bold; color: var(--accent-color); margin-bottom: 15px; min-height: 40px;">
+                    ???</div>
+                <button onclick="spinRandom()" class="admission-btn"
+                    style="background: var(--primary-color); color: white;">
+                    <i class="fas fa-sync-alt"></i> Quay ngẫu nhiên
+                </button>
+            </div>
+        </section>
+
+        <script>
+            function spinRandom() {
+                const resultEl = document.getElementById('random-result');
+                let count = 0;
+                const maxCount = 20; // số lần nhảy số
+                const speed = 50; // tốc độ nhảy
+
+                // tận dụng danh sách students đã khai báo ở trên, lọc tên
+                const names = (window.students || []).map(s => s.name).filter(Boolean);
+                if (!names.length) {
+                    resultEl.textContent = 'Chưa có danh sách tên';
+                    return;
+                }
+
+                const interval = setInterval(() => {
+                    const randomIndex = Math.floor(Math.random() * names.length);
+                    resultEl.textContent = names[randomIndex];
+                    resultEl.style.color = '#333';
+                    count++;
+
+                    if (count >= maxCount) {
+                        clearInterval(interval);
+                        resultEl.style.color = '#e74c3c';
+                        resultEl.style.transform = 'scale(1.2)';
+                        setTimeout(() => resultEl.style.transform = 'scale(1)', 200);
+                    }
+                }, speed);
+            }
+        </script>
         <section class="timetable-section">
             <h2><i class="fas fa-calendar-alt"></i> Thời Khóa Biểu</h2>
 
