@@ -760,6 +760,29 @@
             margin-right: 10px;
         }
 
+        /* Bảng xếp hạng tổ (iframe) */
+        .ranking-embed {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: #fff;
+        }
+
+        .ranking-embed iframe {
+            width: 100%;
+            border: 0;
+            height: 450px;
+        }
+
+        @media (max-width: 600px) {
+            .ranking-embed iframe {
+                height: 650px;
+            }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 600px) {
             .container {
@@ -1014,11 +1037,10 @@
 
         <section class="report-links">
             <h2><i class="fas fa-trophy"></i> Bảng xếp hạng Tổ</h2>
-            <div
-                style="position:relative;padding-top:56.25%;width:100%;overflow:hidden;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.15);background:#fff;">
+            <div class="ranking-embed">
                 <iframe
                     src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pubhtml?gid=1367821958&single=true"
-                    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"></iframe>
+                    loading="lazy"></iframe>
             </div>
             <p style="text-align:center;margin-top:10px;font-size:14px;color:#555;">Nguồn: Google Sheets</p>
         </section>
