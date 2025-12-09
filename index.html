@@ -837,7 +837,7 @@
 
         .admission-form {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
             margin-bottom: 14px;
         }
@@ -1519,24 +1519,19 @@
             <div class="admission-title"><i class="fas fa-calculator"></i> Tính điểm xét tuyển Đại học</div>
             <div class="admission-form">
                 <div>
-                    <label for="score-toan">Toán</label>
-                    <input type="number" id="score-toan" placeholder="0 - 10" min="0" max="10" step="0.1">
+                    <label for="combo-select">Chọn khối</label>
+                    <select id="combo-select"
+                        style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.08);color:#fff;font-weight:700;">
+                        <option value="A00">A00 (Toán, Lý, Hóa)</option>
+                        <option value="A01">A01 (Toán, Lý, Anh)</option>
+                        <option value="B00">B00 (Toán, Hóa, Sinh)</option>
+                        <option value="C00">C00 (Văn, Sử, Địa)</option>
+                        <option value="D01">D01 (Toán, Văn, Anh)</option>
+                        <option value="D07">D07 (Toán, Hóa, Anh)</option>
+                    </select>
                 </div>
-                <div>
-                    <label for="score-ly">Vật lý</label>
-                    <input type="number" id="score-ly" placeholder="0 - 10" min="0" max="10" step="0.1">
-                </div>
-                <div>
-                    <label for="score-hoa">Hóa</label>
-                    <input type="number" id="score-hoa" placeholder="0 - 10" min="0" max="10" step="0.1">
-                </div>
-                <div>
-                    <label for="score-anh">Tiếng Anh</label>
-                    <input type="number" id="score-anh" placeholder="0 - 10" min="0" max="10" step="0.1">
-                </div>
-                <div>
-                    <label for="score-van">Ngữ văn</label>
-                    <input type="number" id="score-van" placeholder="0 - 10" min="0" max="10" step="0.1">
+                <div id="admission-subjects"
+                    style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
                 </div>
             </div>
             <div class="admission-actions">
@@ -1909,19 +1904,50 @@
             const combos = {
                 A00: ['toan', 'ly', 'hoa'],
                 A01: ['toan', 'ly', 'anh'],
+                B00: ['toan', 'hoa', 'sinh'],
+                C00: ['van', 'su', 'dia'],
                 D01: ['toan', 'van', 'anh'],
                 D07: ['toan', 'hoa', 'anh']
             };
 
+            const subjectsLabel = {
+                toan: 'Toán',
+                ly: 'Vật lý',
+                hoa: 'Hóa',
+                anh: 'Tiếng Anh',
+                van: 'Ngữ văn',
+                su: 'Lịch sử',
+                dia: 'Địa lý',
+                sinh: 'Sinh học'
+            };
+
             const suggests = [
-                { min: 0, max: 18, text: 'Nên tham khảo cao đẳng, ĐH địa phương / chương trình đại trà.' },
-                { min: 18, max: 22, text: 'Phù hợp các ĐH tầm trung, ngành khối A/D phổ biến.' },
-                { min: 22, max: 25, text: 'Có thể xét các ĐH top khá (Kinh tế, CNTT, Kỹ thuật ở trường top giữa).' },
-                { min: 25, max: 40, text: 'Nhắm trường top cao (BK, KHTN, KTQD, FTU, NEU…) hoặc chương trình chất lượng cao.' }
+                { min: 0, max: 18, text: 'Phù hợp cao đẳng / ĐH địa phương; chương trình thường.' },
+                { min: 18, max: 22, text: 'Trường ĐH vùng/địa phương ĐBSCL: TVU, KGU, TGU, ĐH Đồng Tháp, Tây Đô.' },
+                { min: 22, max: 25, text: 'ĐH Cần Thơ (đa số ngành), ĐH An Giang (ĐHQG), NCTU, FPT Cần Thơ.' },
+                { min: 25, max: 40, text: 'ĐH Cần Thơ các ngành hot (CNTT, Kinh tế, QTKD), NCTU/FPT CT chương trình chất lượng cao.' }
             ];
 
-            function getScore(id) {
-                const v = parseFloat(document.getElementById('score-' + id).value);
+            const subjectsContainer = document.getElementById('admission-subjects');
+            const comboSelect = document.getElementById('combo-select');
+
+            function renderSubjects(comboKey) {
+                const subs = combos[comboKey] || [];
+                subjectsContainer.innerHTML = '';
+                subs.forEach(s => {
+                    const wrap = document.createElement('div');
+                    wrap.innerHTML = `
+                        <label>${subjectsLabel[s] || s}</label>
+                        <input type="number" data-subject="${s}" placeholder="0 - 10" min="0" max="10" step="0.1">
+                    `;
+                    subjectsContainer.appendChild(wrap);
+                });
+            }
+
+            function getScoreInput(sub) {
+                const el = subjectsContainer.querySelector(`input[data-subject="${sub}"]`);
+                if (!el) return null;
+                const v = parseFloat(el.value);
                 return isNaN(v) ? null : v;
             }
 
@@ -1930,40 +1956,34 @@
                 return hit ? hit.text : '';
             }
 
-            document.getElementById('btn-calc')?.addEventListener('click', () => {
-                const scores = {
-                    toan: getScore('toan'),
-                    ly: getScore('ly'),
-                    hoa: getScore('hoa'),
-                    anh: getScore('anh'),
-                    van: getScore('van')
-                };
+            comboSelect?.addEventListener('change', (e) => renderSubjects(e.target.value));
 
+            document.getElementById('btn-calc')?.addEventListener('click', () => {
+                const combo = comboSelect.value;
+                const subs = combos[combo] || [];
+                const scores = subs.map(s => getScoreInput(s));
                 const resultEl = document.getElementById('admission-result');
                 resultEl.innerHTML = '';
 
-                Object.entries(combos).forEach(([code, subs]) => {
-                    if (subs.every(s => scores[s] !== null)) {
-                        const total = subs.reduce((sum, s) => sum + scores[s], 0);
-                        const card = document.createElement('div');
-                        card.className = 'admission-card';
-                        const scoreText = total.toFixed(1);
-                        card.innerHTML = `<h4>Tổ hợp ${code}</h4><p>Điểm: <strong>${scoreText}</strong></p><p>${suggestText(total)}</p>`;
-                        resultEl.appendChild(card);
-                    }
-                });
-
-                if (!resultEl.children.length) {
-                    resultEl.innerHTML = '<div class="admission-card"><p>Vui lòng nhập đủ các môn cần thiết cho ít nhất một tổ hợp.</p></div>';
+                if (scores.some(v => v === null)) {
+                    resultEl.innerHTML = '<div class="admission-card"><p>Nhập đủ điểm 3 môn cho khối đã chọn.</p></div>';
+                    return;
                 }
+
+                const total = scores.reduce((a, b) => a + b, 0);
+                const card = document.createElement('div');
+                card.className = 'admission-card';
+                card.innerHTML = `<h4>Khối ${combo}</h4><p>Điểm: <strong>${total.toFixed(1)}</strong></p><p>${suggestText(total)}</p>`;
+                resultEl.appendChild(card);
             });
 
             document.getElementById('btn-clear')?.addEventListener('click', () => {
-                ['toan', 'ly', 'hoa', 'anh', 'van'].forEach(id => {
-                    document.getElementById('score-' + id).value = '';
-                });
+                subjectsContainer.querySelectorAll('input').forEach(el => el.value = '');
                 document.getElementById('admission-result').innerHTML = '';
             });
+
+            // init
+            renderSubjects(comboSelect.value);
         })();
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
