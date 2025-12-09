@@ -2017,7 +2017,9 @@
             });
 
             // init
-            renderSubjects(comboSelect.value);
+            if (comboSelect) {
+                renderSubjects(comboSelect.value);
+            }
         })();
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
