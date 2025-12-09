@@ -2157,6 +2157,15 @@
 
             comboSelect?.addEventListener('change', (e) => renderSubjects(e.target.value));
 
+            const comboSelectC = document.getElementById('combo-c-select');
+            comboSelectC?.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (val && combos[val]) {
+                    comboSelect.value = val;
+                    renderSubjects(val);
+                }
+            });
+
             document.getElementById('btn-calc')?.addEventListener('click', () => {
                 const combo = comboSelect.value;
                 const subs = combos[combo] || [];
