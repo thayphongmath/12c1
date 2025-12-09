@@ -760,41 +760,60 @@
             margin-right: 10px;
         }
 
-        /* Bảng xếp hạng tổ (iframe) */
+        /* Bảng xếp hạng tổ (render từ CSV) */
         .ranking-embed {
             width: 100%;
-            max-width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             background: #fff;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            padding: 0;
+            padding: 10px;
         }
 
-        .ranking-scroll {
+        .ranking-table-wrap {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             touch-action: pan-x;
             overscroll-behavior: contain;
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
         }
 
-        .ranking-scroll iframe {
-            min-width: 980px;
+        .ranking-table {
             width: 100%;
-            height: 520px;
-            border: 0;
+            border-collapse: collapse;
+            min-width: 800px;
         }
 
-        @media (max-width: 600px) {
-            .ranking-scroll iframe {
-                min-width: 900px;
-                height: 620px;
-            }
+        .ranking-table th,
+        .ranking-table td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .ranking-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .ranking-table tr:nth-child(even) td {
+            background: #f7f7ff;
+        }
+
+        .ranking-table tr:hover td {
+            background: #eef2ff;
+        }
+
+        .ranking-status {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
         /* Mobile Responsive */
@@ -1052,13 +1071,11 @@
         <section class="report-links">
             <h2><i class="fas fa-trophy"></i> Bảng xếp hạng Tổ</h2>
             <div class="ranking-embed">
-                <div class="ranking-scroll">
-                    <iframe
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pubhtml?gid=1367821958&single=true"
-                        loading="lazy"></iframe>
+                <div id="rankingStatus" class="ranking-status">Đang tải bảng...</div>
+                <div class="ranking-table-wrap">
+                    <table class="ranking-table" id="rankingTable"></table>
                 </div>
             </div>
-            <p style="text-align:center;margin-top:10px;font-size:14px;color:#555;">Vuốt ngang để xem đủ bảng</p>
         </section>
 
         <section class="report-links">
@@ -1391,6 +1408,103 @@
 
         // Chạy kiểm tra khi trang load
         checkBirthday();
+
+        // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
+        const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
+
+        function parseCsv(text) {
+            const rows = [];
+            let current = '';
+            let inQuotes = false;
+            let row = [];
+
+            for (let i = 0; i < text.length; i++) {
+                const c = text[i];
+                const next = text[i + 1];
+                if (c === '"' && inQuotes && next === '"') {
+                    current += '"';
+                    i++;
+                } else if (c === '"') {
+                    inQuotes = !inQuotes;
+                } else if (c === ',' && !inQuotes) {
+                    row.push(current);
+                    current = '';
+                } else if ((c === '\n' || c === '\r') && !inQuotes) {
+                    if (current !== '' || row.length) {
+                        row.push(current);
+                        rows.push(row);
+                        row = [];
+                        current = '';
+                    }
+                } else {
+                    current += c;
+                }
+            }
+            if (current !== '' || row.length) {
+                row.push(current);
+                rows.push(row);
+            }
+            return rows;
+        }
+
+        async function loadRanking() {
+            const statusEl = document.getElementById('rankingStatus');
+            const tableEl = document.getElementById('rankingTable');
+            try {
+                statusEl.textContent = 'Đang tải bảng...';
+                const resp = await fetch(RANKING_CSV_URL, { cache: 'no-store' });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const text = await resp.text();
+                const data = parseCsv(text).filter(r => r.length > 0);
+                if (!data.length) throw new Error('Không có dữ liệu');
+
+                const headers = data[0];
+                const rows = data.slice(1).filter(r => r.some(cell => cell && cell.trim() !== ''));
+
+                // Render header
+                const thead = document.createElement('thead');
+                const headRow = document.createElement('tr');
+                headers.forEach(h => {
+                    const th = document.createElement('th');
+                    th.textContent = h || '';
+                    headRow.appendChild(th);
+                });
+                thead.appendChild(headRow);
+
+                // Render body
+                const tbody = document.createElement('tbody');
+                rows.forEach(r => {
+                    const tr = document.createElement('tr');
+                    r.forEach((cell, idx) => {
+                        const td = document.createElement('td');
+                        td.textContent = cell || '';
+                        // Căn phải số
+                        if (!isNaN(Number(cell)) && cell !== '') {
+                            td.style.textAlign = 'right';
+                        }
+                        // Tô nhẹ cột hạng nhất
+                        if (headers[idx] && headers[idx].toLowerCase().includes('hạng nhất')) {
+                            td.style.fontWeight = '600';
+                            td.style.color = '#764ba2';
+                        }
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+
+                // Clear và gắn
+                tableEl.innerHTML = '';
+                tableEl.appendChild(thead);
+                tableEl.appendChild(tbody);
+                statusEl.textContent = '';
+            } catch (err) {
+                console.error('Ranking load error', err);
+                statusEl.textContent = 'Không tải được bảng. Vui lòng thử lại.';
+            }
+        }
+
+        // Tải bảng khi trang load
+        loadRanking();
     </script>
 
     <section class="contact-section">
