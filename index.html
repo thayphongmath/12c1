@@ -1642,8 +1642,8 @@
                 <button class="admission-btn" id="btn-clear">Xóa nhập liệu</button>
             </div>
             <div class="admission-result" id="admission-result"></div>
-            <div class="admission-note">Nhập điểm theo thang 10. Hỗ trợ tổ hợp A00 (Toán, Lý, Hóa), A01 (Toán, Lý,
-                Anh), D01 (Toán, Văn, Anh), D07 (Toán, Hóa, Anh). Gợi ý trường dựa trên mức điểm.</div>
+            <div class="admission-note">Nhập điểm theo thang 10. Gợi ý ngành phù hợp. Gợi ý trường dựa trên mức điểm.
+            </div>
         </section>
 
         <section class="memories-section">
@@ -2300,11 +2300,21 @@
                     return;
                 }
 
-                const total = scores.reduce((a, b) => a + b, 0);
+                const subjectWeights = {
+                    ve: 2, ve1: 2, ve2: 2,
+                    nk: 2, nk1: 2, nk2: 2
+                };
+
+                // tính điểm có hệ số cho môn năng khiếu (nhân 2)
+                const total = subs.reduce((sum, sub, idx) => {
+                    const w = subjectWeights[sub] || 1;
+                    const v = scores[idx] ?? 0;
+                    return sum + v * w;
+                }, 0);
                 const card = document.createElement('div');
                 card.className = 'admission-card';
                 card.innerHTML = `<h4>Khối ${combo}</h4>
-                    <p>Điểm: <strong>${total.toFixed(1)}</strong></p>
+                    <p>Điểm (NK nhân hệ số 2): <strong>${total.toFixed(1)}</strong></p>
                     <p><strong>Ngành phù hợp:</strong> ${suggestComboText(combo)}</p>
                     <p><strong>Gợi ý trường (miền Nam):</strong> ${suggestSchoolsSouth(total, combo)}</p>`;
                 resultEl.appendChild(card);
