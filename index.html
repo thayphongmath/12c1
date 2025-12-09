@@ -2211,24 +2211,58 @@
             function suggestSchoolsSouth(score, combo) {
                 const upper = score;
                 let base = '';
-                if (upper < 20) {
-                    base = 'ĐH địa phương/ngoài công lập: TVU, KGU, TGU, ĐH Đồng Tháp, Tây Đô.';
-                } else if (upper < 22) {
-                    base = 'ĐH vùng ĐBSCL: CTU (một số ngành), AGU, NCTU, FPT Cần Thơ (xét học bạ); TVU, KGU.';
-                } else if (upper < 25) {
-                    base = 'CTU đa số ngành; AGU; NCTU; FPT Cần Thơ; SPKT HCM (ngành trung); UEH hệ chuẩn; UFM.';
-                } else {
-                    base = 'Top miền Nam: BK HCM, KHTN HCM, CTU ngành hot/CLC, SPKT HCM ngành hot, FTU HCM, UEH CLC, Y Dược (nếu khối B đủ điểm), FPT ĐH.';
-                }
+                const isA = combo.startsWith('A');
+                const isB = ['B00', 'B01', 'B02', 'B03', 'B04', 'B05', 'B08'].includes(combo);
 
-                // Điều chỉnh nhẹ cho khối B (Y/Dược) và năng khiếu
-                if (['B00', 'B03', 'B08'].includes(combo)) {
-                    if (upper >= 26.5) {
-                        base = 'Y Dược: ĐH Y Dược TP.HCM, Khoa Y ĐHQG HCM, ĐH Y Dược Cần Thơ (ngành hot).';
+                if (isA) {
+                    if (upper >= 26) {
+                        base = 'Top A: BK HCM, KHTN HCM, UIT, FTU HCM (Kinh tế/CNTT), UEH CLC, UEL, CTU CLC ngành hot.';
                     } else if (upper >= 23) {
-                        base = 'Y Dược: ĐH Y Dược Cần Thơ, HV YHCT, Y Dược Thái Bình/Hải Phòng (tham khảo).';
+                        base = 'A tầm trung: CTU ngành CNTT/Kinh tế/Kỹ thuật; HCMUTE; NLU (Nông Lâm) công nghệ; UFM/UEH hệ chuẩn; NCTU/FPT CT.';
+                    } else if (upper >= 20) {
+                        base = 'A vừa sức: CTU đa số ngành; AGU; NCTU; NLU; ĐH Công nghiệp HCM; ĐH GTVT HCM.';
                     } else {
-                        base = 'Xem Y tế công cộng, Điều dưỡng, Xét nghiệm tại ĐH vùng; Nông Lâm (Sinh/TP).';
+                        base = 'A <20: ĐH địa phương/ngoài công lập ĐBSCL: TVU, KGU, TGU, ĐH Đồng Tháp, Tây Đô; xét học bạ/cao đẳng.';
+                    }
+                } else if (isB) {
+                    if (upper >= 26.5) {
+                        base = 'Y siêu top: ĐH Y Dược TP.HCM; Khoa Y ĐHQG HCM; ĐH Y Dược Cần Thơ (ngành hot); Y khoa Phạm Ngọc Thạch (HK TP.HCM).';
+                    } else if (upper >= 23) {
+                        base = 'Y tầm trung: ĐH Y Dược Cần Thơ; HV YHCT; Điều dưỡng/Xét nghiệm chất lượng cao tại CTU, HCMUAF, HCMUTE; tham khảo Y Dược Thái Bình/Hải Phòng.';
+                    } else if (upper >= 20) {
+                        base = 'Y vừa sức: Điều dưỡng, Xét nghiệm, Hình ảnh tại ĐH vùng/ngoài công lập (TVU, KGU, TGU, Tây Đô); CTU các ngành Sinh/CNTP/CNSH; HCMUAF (CNTP/CNSH); ĐH Y tế công cộng.';
+                    } else {
+                        base = 'B <20: cân nhắc CĐ/ĐH địa phương; Điều dưỡng/Xét nghiệm hệ CLC ở trường tư; CNTP/Môi trường/Nông nghiệp tại NLU, TVU, KGU, TGU.';
+                    }
+                } else if (combo.startsWith('D')) {
+                    if (upper >= 26) {
+                        base = 'Top D: FTU HCM (Kinh tế/Ngôn ngữ); UEH CLC; HCMUS-IS (KHDL/IT); BK HCM (D07), KHTN HCM; CTU CLC ngành hot; HCMUSSH (ngôn ngữ/BC/PR).';
+                    } else if (upper >= 23) {
+                        base = 'D tầm trung: CTU ngành Kinh tế/Ngôn ngữ/CNTT; UEL; UFM; NCTU/FPT CT; HCMUSSH (nhiều ngành XH); HCMUTE (một số kỹ thuật D07).';
+                    } else if (upper >= 20) {
+                        base = 'D vừa sức: CTU đa số ngành; AGU; NCTU; HCMUAF (Ngôn ngữ/QLDL); ĐH Sài Gòn; ĐH Công nghiệp HCM; ĐH GTVT HCM; ngoài công lập ĐBSCL.';
+                    } else {
+                        base = 'D <20: ĐH địa phương/ngoài công lập ĐBSCL (TVU, KGU, TGU, Đồng Tháp, Tây Đô); xét học bạ và các ngành ngôn ngữ/du lịch/kế toán.';
+                    }
+                } else if (combo.startsWith('C')) {
+                    if (upper >= 25) {
+                        base = 'C top: ĐH Luật HCM; KHXH&NV HCM; Sư phạm HCM (Văn/Sử/Địa/GDCD); FTU HCM (một số ngành PR/Ngôn ngữ); CTU CLC ngành Luật/BC.';
+                    } else if (upper >= 22) {
+                        base = 'C tầm trung: CTU ngành Luật/BC/PR/Du lịch; HCMUSSH; ĐH Văn Lang/UEF/HAU (ngôn ngữ/du lịch/PR); ĐH Mở HCM.';
+                    } else if (upper >= 20) {
+                        base = 'C vừa sức: CTU đa số ngành XH; TVU/TGU ngành Luật/Du lịch/CTXH; ĐH Nội vụ; ĐH Văn hóa; ngoài công lập ĐBSCL.';
+                    } else {
+                        base = 'C <20: ĐH địa phương/ngoài công lập ĐBSCL (TVU, KGU, TGU, Đồng Tháp, Tây Đô); ngành Luật/Du lịch/CTXH/Việt Nam học.';
+                    }
+                } else {
+                    if (upper < 20) {
+                        base = 'ĐH địa phương/ngoài công lập: TVU, KGU, TGU, ĐH Đồng Tháp, Tây Đô.';
+                    } else if (upper < 22) {
+                        base = 'ĐH vùng ĐBSCL: CTU (một số ngành), AGU, NCTU, FPT Cần Thơ (xét học bạ); TVU, KGU.';
+                    } else if (upper < 25) {
+                        base = 'CTU đa số ngành; AGU; NCTU; FPT Cần Thơ; SPKT HCM (ngành trung); UEH hệ chuẩn; UFM.';
+                    } else {
+                        base = 'Top miền Nam: BK HCM, KHTN HCM, CTU ngành hot/CLC, SPKT HCM ngành hot, FTU HCM, UEH CLC, Y Dược (nếu khối B đủ điểm), FPT ĐH.';
                     }
                 }
 
