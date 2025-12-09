@@ -1391,30 +1391,42 @@
         <script>
             function spinRandom() {
                 const resultEl = document.getElementById('random-result');
-                let count = 0;
-                const maxCount = 20; // số lần nhảy số
-                const speed = 50; // tốc độ nhảy
-
-                // tận dụng danh sách students đã khai báo ở trên, lọc tên
                 const names = (window.students || []).map(s => s.name).filter(Boolean);
                 if (!names.length) {
                     resultEl.textContent = 'Chưa có danh sách tên';
                     return;
                 }
 
-                const interval = setInterval(() => {
+                const start = performance.now();
+                const duration = 10000; // quay ~10s
+                const startSpeed = 40;  // ms
+                const endSpeed = 280;   // ms (chậm dần)
+
+                function easeOutCubic(x) {
+                    return 1 - Math.pow(1 - x, 3);
+                }
+
+                function tick() {
+                    const now = performance.now();
+                    const progress = Math.min((now - start) / duration, 1);
+                    const ease = easeOutCubic(progress);
+                    const speed = startSpeed + (endSpeed - startSpeed) * ease;
+
                     const randomIndex = Math.floor(Math.random() * names.length);
                     resultEl.textContent = names[randomIndex];
                     resultEl.style.color = '#333';
-                    count++;
 
-                    if (count >= maxCount) {
-                        clearInterval(interval);
+                    if (progress >= 1) {
                         resultEl.style.color = '#e74c3c';
                         resultEl.style.transform = 'scale(1.2)';
-                        setTimeout(() => resultEl.style.transform = 'scale(1)', 200);
+                        setTimeout(() => resultEl.style.transform = 'scale(1)', 220);
+                        return;
                     }
-                }, speed);
+
+                    setTimeout(tick, speed);
+                }
+
+                tick();
             }
         </script>
         <section class="timetable-section">
