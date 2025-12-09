@@ -1963,6 +1963,8 @@
             { name: 'Hà Thị Tuyết My', birthDay: 23, birthMonth: 12 },
             { name: 'Nguyễn Thị Kim Tiên', birthDay: 9, birthMonth: 6 }
         ];
+        // đưa danh sách ra global để các tiện ích khác (vd. vòng quay may mắn) sử dụng
+        window.students = students;
 
         // Kiểm tra sinh nhật hôm nay
         function checkBirthday() {
