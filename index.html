@@ -774,9 +774,11 @@
 
         .ranking-table-wrap {
             overflow-x: auto;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             touch-action: pan-x;
             overscroll-behavior: contain;
+            max-height: 320px;
         }
 
         .ranking-table {
@@ -801,8 +803,12 @@
             z-index: 1;
         }
 
-        .ranking-table tr:nth-child(even) td {
-            background: #f7f7ff;
+        .ranking-table tbody tr:nth-child(odd) td {
+            background: #f7f8ff;
+        }
+
+        .ranking-table tbody tr:nth-child(even) td {
+            background: #eef1ff;
         }
 
         .ranking-table tr:hover td {
@@ -1459,7 +1465,12 @@
                 if (!data.length) throw new Error('Không có dữ liệu');
 
                 const headers = data[0];
-                const rows = data.slice(1).filter(r => r.some(cell => cell && cell.trim() !== ''));
+                let rows = data.slice(1).filter(r => r.some(cell => cell && cell.trim() !== ''));
+
+                // Chỉ giữ 5 tuần mới nhất
+                if (rows.length > 5) {
+                    rows = rows.slice(-5);
+                }
 
                 // Render header
                 const thead = document.createElement('thead');
