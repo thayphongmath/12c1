@@ -764,6 +764,126 @@
             margin-right: 10px;
         }
 
+        /* Countdown HK1 */
+        .countdown-section {
+            margin: 40px 0;
+            padding: 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #1e2a78 0%, #4a90e2 50%, #9c27b0 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-section::before,
+        .countdown-section::after {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+            filter: blur(6px);
+            animation: glowMove 10s linear infinite;
+        }
+
+        .countdown-section::before {
+            top: -80px;
+            left: -60px;
+        }
+
+        .countdown-section::after {
+            bottom: -100px;
+            right: -80px;
+            animation-direction: reverse;
+        }
+
+        @keyframes glowMove {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(30px, 20px) scale(1.1);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .countdown-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .countdown-title i {
+            font-size: 24px;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .countdown-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 18px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(6px);
+        }
+
+        .countdown-value {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            color: #ffeb3b;
+            text-shadow: 0 0 12px rgba(255, 235, 59, 0.8);
+        }
+
+        .countdown-label {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            color: #e3e7ff;
+        }
+
+        .countdown-note {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #e0e3ff;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            .countdown-title {
+                font-size: 18px;
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+
+            .countdown-value {
+                font-size: 28px;
+            }
+        }
+
         /* Bảng xếp hạng tổ (render từ CSV) */
         .ranking-embed {
             width: 100%;
@@ -1077,6 +1197,29 @@
 
         <section class="timetable-section">
             <h2><i class="fas fa-calendar-alt"></i> Thời Khóa Biểu</h2>
+
+            <section class="countdown-section">
+                <div class="countdown-title"><i class="fas fa-hourglass-half"></i> Đếm ngược thi HK1</div>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-card">
+                        <div class="countdown-value" id="cd-days">--</div>
+                        <div class="countdown-label">Ngày</div>
+                    </div>
+                    <div class="countdown-card">
+                        <div class="countdown-value" id="cd-hours">--</div>
+                        <div class="countdown-label">Giờ</div>
+                    </div>
+                    <div class="countdown-card">
+                        <div class="countdown-value" id="cd-mins">--</div>
+                        <div class="countdown-label">Phút</div>
+                    </div>
+                    <div class="countdown-card">
+                        <div class="countdown-value" id="cd-secs">--</div>
+                        <div class="countdown-label">Giây</div>
+                    </div>
+                </div>
+                <p class="countdown-note">Thi học kỳ 1: 29/12/2025</p>
+            </section>
 
             <span class="session-title">Buổi Sáng (Áp dụng: 01-12-2025)</span>
             <table>
@@ -1536,6 +1679,34 @@
 
         // Chạy kiểm tra khi trang load
         checkBirthday();
+
+        // ========== COUNTDOWN THI HK1 ==========
+        const EXAM_TIME = new Date('2025-12-29T00:00:00');
+
+        function renderCountdown() {
+            const daysEl = document.getElementById('cd-days');
+            const hoursEl = document.getElementById('cd-hours');
+            const minsEl = document.getElementById('cd-mins');
+            const secsEl = document.getElementById('cd-secs');
+            if (!daysEl) return;
+
+            const now = new Date();
+            let diff = EXAM_TIME - now;
+            if (diff < 0) diff = 0;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minsEl.textContent = String(mins).padStart(2, '0');
+            secsEl.textContent = String(secs).padStart(2, '0');
+        }
+
+        renderCountdown();
+        setInterval(renderCountdown, 1000);
 
         // ========== RANKING FROM GOOGLE SHEETS (CSV) ==========
         const RANKING_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTaaF4Ifa4ylSmZvqG1K8zKUw7yEJt1oTNsY__nCbQPRo6v__05lNc0oXpt56Yhy4tyTfDu0FOKFZ5U/pub?gid=1367821958&single=true&output=csv';
