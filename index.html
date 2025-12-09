@@ -765,7 +765,7 @@
             position: relative;
             width: 100%;
             max-width: 100%;
-            overflow-x: auto;
+            overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             background: #fff;
@@ -774,21 +774,12 @@
         .ranking-embed iframe {
             width: 100%;
             border: 0;
-            height: 450px;
+            height: 500px;
         }
 
         @media (max-width: 600px) {
             .ranking-embed iframe {
-                /* Giữ nguyên nội dung nhưng scale nhỏ lại theo chiều ngang */
-                width: 1200px;
-                transform: scale(0.7);
-                transform-origin: top left;
-                height: 650px;
-            }
-
-            .ranking-embed {
-                /* Đảm bảo không bị cắt khi scale */
-                padding-bottom: 10px;
+                height: 600px;
             }
         }
 
