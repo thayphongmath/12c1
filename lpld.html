@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thi Đua Lớp Phó Lao Động (LPLD)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            color: #c62828;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            text-align: center;
+            color: #1a237e;
+            font-weight: 500;
+            margin: 0 0 25px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1em;
+            color: #d81b60;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0288d1;
+            background: #ffffff;
+            box-shadow: 0 0 8px rgba(2, 136, 209, 0.2);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #0288d1, #0277bd);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(2, 136, 209, 0.3);
+        }
+
+        button[type="submit"]:hover:not(:disabled) {
+            background: linear-gradient(45deg, #0277bd, #01579b);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.4);
+        }
+
+        button[type="submit"]:disabled {
+            background: #b0bec5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #week_date_range {
+            font-size: 0.95em;
+            color: #37474f;
+            text-align: center;
+            margin-top: 8px;
+            display: block;
+            font-style: italic;
+        }
+
+        .action-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .action-group label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1em;
+            color: #2e7d32;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .action-group input {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            margin: 0 0 15px;
+            color: #1a237e;
+            font-size: 1.4em;
+        }
+
+        .modal-content p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #37474f;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-buttons .copy-btn {
+            background: #2e7d32;
+            color: #ffffff;
+        }
+
+        .modal-buttons .copy-btn:hover {
+            background: #1b5e20;
+        }
+
+        .modal-buttons .close-btn {
+            background: #d81b60;
+            color: #ffffff;
+        }
+
+        .modal-buttons .close-btn:hover {
+            background: #b71c1c;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            input,
+            button[type="submit"] {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+
+            .action-group {
+                gap: 15px;
+            }
+
+            label {
+                font-size: 0.95em;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .modal-content h3 {
+                font-size: 1.2em;
+            }
+
+            .modal-content p {
+                font-size: 0.9em;
+            }
+
+            .modal-buttons button {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>DÀNH CHO LỚP PHÓ LAO ĐỘNG (LPLD)</h1>
+        <h2>Lớp phó lao động</h2>
+        <form id="teamForm"
+            action="https://script.google.com/macros/s/AKfycbxNfkIFsqx_QY1LoNhYnHSSahh2192r0u8sW7LYh1UHQkoMRf6IfB0oX8MOaHck0cxyeA/exec"
+            method="POST">
+            <input type="hidden" name="team" value="LPLD">
+            <div class="form-group action-group">
+                <label><input type="radio" name="action" value="add" checked> Ghi mới (Tuần mới)</label>
+                <label><input type="radio" name="action" value="append"> Bổ sung (Thông tin thiếu)</label>
+                <label><input type="radio" name="action" value="edit"> Chỉnh sửa (Tuần cũ)</label>
+            </div>
+            <div class="form-group">
+                <label for="week">TUẦN THỨ (PHẢI NHẬP CHÍNH XÁC)</label>
+                <input type="number" id="week" name="week" min="1" max="35" required oninput="updateWeekDateRange()">
+                <span id="week_date_range"></span>
+                <input type="hidden" id="week_date_range_input" name="week_date_range">
+            </div>
+            <div class="form-group">
+                <label for="cleaning_team">1. Tổ trực Vệ sinh Lớp:</label>
+                <input type="text" id="cleaning_team" name="cleaning_team" placeholder="Ví dụ: Tổ 1">
+            </div>
+            <div class="form-group">
+                <label for="chair_team">2. Tổ trực mang ghế ra sân:</label>
+                <input type="text" id="chair_team" name="chair_team" placeholder="Ví dụ: Tổ 1 (Nhân, Phong)">
+            </div>
+            <div class="form-group">
+                <label for="monday">3. Thứ 2 (Tên HS trực):</label>
+                <input type="text" id="monday" name="monday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="tuesday">4. Thứ 3 (Tên HS trực):</label>
+                <input type="text" id="tuesday" name="tuesday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="wednesday">5. Thứ 4 (Tên HS trực):</label>
+                <input type="text" id="wednesday" name="wednesday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="thursday">6. Thứ 5 (Tên HS trực):</label>
+                <input type="text" id="thursday" name="thursday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="friday">7. Thứ 6 (Tên HS trực):</label>
+                <input type="text" id="friday" name="friday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="saturday">8. Thứ 7 (Tên HS trực):</label>
+                <input type="text" id="saturday" name="saturday" placeholder="Ví dụ: Thanh, Hiền">
+            </div>
+            <div class="form-group">
+                <label for="late_duty">9. Trực trễ ngày nào?</label>
+                <input type="text" id="late_duty" name="late_duty" placeholder="Ví dụ: Thứ 2, 27/8">
+            </div>
+            <div class="form-group">
+                <label for="feedback">10. Ý kiến phản hồi:</label>
+                <input type="text" id="feedback" name="feedback" placeholder="Ví dụ: Phân công bạn A nhưng...">
+            </div>
+            <div class="form-group">
+                <label for="password">***Mật khẩu*** (Thầy cấp riêng cho LPLD):</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" id="submitButton">Gửi Dữ Liệu</button>
+        </form>
+    </div>
+    <div class="modal" id="assignmentModal">
+        <div class="modal-content">
+            <h3>Kết quả phân công lao động</h3>
+            <div id="assignmentContent"></div>
+            <div class="modal-buttons">
+                <button class="copy-btn" onclick="copyAssignment()">Sao chép</button>
+                <button class="close-btn" onclick="closeModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const weekRanges = [
+            "từ ngày 8/9/2025 đến 13/9/2025",
+            "từ ngày 15/9/2025 đến 20/9/2025",
+            "từ ngày 22/9/2025 đến 27/9/2025",
+            "từ ngày 29/9/2025 đến 4/10/2025",
+            "từ ngày 6/10/2025 đến 11/10/2025",
+            "từ ngày 13/10/2025 đến 18/10/2025",
+            "từ ngày 20/10/2025 đến 25/10/2025",
+            "từ ngày 27/10/2025 đến 1/11/2025",
+            "từ ngày 3/11/2025 đến 8/11/2025",
+            "từ ngày 10/11/2025 đến 15/11/2025",
+            "từ ngày 17/11/2025 đến 22/11/2025",
+            "từ ngày 24/11/2025 đến 29/11/2025",
+            "từ ngày 1/12/2025 đến 6/12/2025",
+            "từ ngày 8/12/2025 đến 13/12/2025",
+            "từ ngày 15/12/2025 đến 20/12/2025",
+            "từ ngày 22/12/2025 đến 27/12/2025",
+            "từ ngày 29/12/2025 đến 3/1/2026",
+            "từ ngày 5/1/2026 đến 10/1/2026",
+            "từ ngày 12/1/2026 đến 17/1/2026",
+            "từ ngày 19/1/2026 đến 24/1/2026",
+            "từ ngày 26/1/2026 đến 31/1/2026",
+            "từ ngày 2/2/2026 đến 7/2/2026",
+            "từ ngày 9/2/2026 đến 14/2/2026",
+            "từ ngày 16/2/2026 đến 21/2/2026",
+            "từ ngày 23/2/2026 đến 28/2/2026",
+            "từ ngày 2/3/2026 đến 7/3/2026",
+            "từ ngày 9/3/2026 đến 14/3/2026",
+            "từ ngày 16/3/2026 đến 21/3/2026",
+            "từ ngày 23/3/2026 đến 28/3/2026",
+            "từ ngày 30/3/2026 đến 4/4/2026",
+            "từ ngày 6/4/2026 đến 11/4/2026",
+            "từ ngày 13/4/2026 đến 18/4/2026",
+            "từ ngày 20/4/2026 đến 25/4/2026",
+            "từ ngày 27/4/2026 đến 2/5/2026",
+            "từ ngày 18/5/2026 đến 23/5/2026"
+        ];
+
+        function updateWeekDateRange() {
+            const weekInput = document.getElementById('week').value;
+            const weekDateRange = document.getElementById('week_date_range');
+            const weekDateRangeInput = document.getElementById('week_date_range_input');
+            if (weekInput >= 1 && weekInput <= 35) {
+                weekDateRange.textContent = weekRanges[weekInput - 1];
+                weekDateRangeInput.value = weekRanges[weekInput - 1];
+            } else {
+                weekDateRange.textContent = '';
+                weekDateRangeInput.value = '';
+            }
+        }
+
+        function showModal(assignments, week) {
+            const modal = document.getElementById('assignmentModal');
+            const content = document.getElementById('assignmentContent');
+            content.innerHTML = `
+                <p><strong>Tuần ${week} (${weekRanges[week - 1]}):</strong></p>
+                <p>Tổ trực Vệ sinh Lớp: ${assignments['Tổ trực Vệ sinh Lớp']}</p>
+                <p>Tổ trực mang ghế ra sân: ${assignments['Tổ trực mang ghế ra sân']}</p>
+                <p>Thứ 2: ${assignments['Thứ 2']}</p>
+                <p>Thứ 3: ${assignments['Thứ 3']}</p>
+                <p>Thứ 4: ${assignments['Thứ 4']}</p>
+                <p>Thứ 5: ${assignments['Thứ 5']}</p>
+                <p>Thứ 6: ${assignments['Thứ 6']}</p>
+                <p>Thứ 7: ${assignments['Thứ 7']}</p>
+                <p>Trực trễ ngày nào?: ${assignments['Trực trễ ngày nào?']}</p>
+                <p>Ý kiến phản hồi: ${assignments['Ý kiến phản hồi']}</p>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function copyAssignment() {
+            const week = document.getElementById('week').value;
+            const assignments = {
+                'Tổ trực Vệ sinh Lớp': document.getElementById('cleaning_team').value || 'Không có',
+                'Tổ trực mang ghế ra sân': document.getElementById('chair_team').value || 'Không có',
+                'Thứ 2': document.getElementById('monday').value || 'Không có',
+                'Thứ 3': document.getElementById('tuesday').value || 'Không có',
+                'Thứ 4': document.getElementById('wednesday').value || 'Không có',
+                'Thứ 5': document.getElementById('thursday').value || 'Không có',
+                'Thứ 6': document.getElementById('friday').value || 'Không có',
+                'Thứ 7': document.getElementById('saturday').value || 'Không có',
+                'Trực trễ ngày nào?': document.getElementById('late_duty').value || 'Không có',
+                'Ý kiến phản hồi': document.getElementById('feedback').value || 'Không có'
+            };
+            let text = `Kết quả phân công lao động tuần ${week} (${weekRanges[week - 1]}):\n\n`;
+            for (const [key, value] of Object.entries(assignments)) {
+                text += `${key}: ${value}\n`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Đã sao chép kết quả phân công vào clipboard!');
+            }).catch(err => {
+                alert('Lỗi khi sao chép: ' + err.message);
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('assignmentModal').style.display = 'none';
+            window.location.href = 'thankyou.html';
+        }
+
+        async function verifyPassword(input) {
+            try {
+                const response = await fetch('/api/verify-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: input, page: 'lpld' })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) return true;
+
+                alert(data?.error || data?.message || 'Mật khẩu không đúng!');
+                return false;
+            } catch (error) {
+                alert('Không thể xác thực. Vui lòng thử lại.');
+                return false;
+            }
+        }
+
+        document.getElementById('teamForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const submitButton = document.getElementById('submitButton');
+            const password = document.getElementById('password').value.trim();
+
+            submitButton.textContent = 'Đang xác thực...';
+            submitButton.disabled = true;
+
+            const isValid = await verifyPassword(password);
+            if (!isValid) {
+                submitButton.textContent = 'Gửi Dữ Liệu';
+                submitButton.disabled = false;
+                return;
+            }
+
+            submitButton.textContent = 'Đang gửi...';
+
+            const formData = new FormData(this);
+            const googleScriptAppUrl = 'https://script.google.com/macros/s/AKfycbxNfkIFsqx_QY1LoNhYnHSSahh2192r0u8sW7LYh1UHQkoMRf6IfB0oX8MOaHck0cxyeA/exec';
+
+            fetch(googleScriptAppUrl, {
+                method: 'POST',
+                body: formData,
+                redirect: 'follow'
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        const assignments = {
+                            'Tổ trực Vệ sinh Lớp': document.getElementById('cleaning_team').value || 'Không có',
+                            'Tổ trực mang ghế ra sân': document.getElementById('chair_team').value || 'Không có',
+                            'Thứ 2': document.getElementById('monday').value || 'Không có',
+                            'Thứ 3': document.getElementById('tuesday').value || 'Không có',
+                            'Thứ 4': document.getElementById('wednesday').value || 'Không có',
+                            'Thứ 5': document.getElementById('thursday').value || 'Không có',
+                            'Thứ 6': document.getElementById('friday').value || 'Không có',
+                            'Thứ 7': document.getElementById('saturday').value || 'Không có',
+                            'Trực trễ ngày nào?': document.getElementById('late_duty').value || 'Không có',
+                            'Ý kiến phản hồi': document.getElementById('feedback').value || 'Không có'
+                        };
+                        showModal(assignments, document.getElementById('week').value);
+                    } else {
+                        alert('Có lỗi xảy ra khi gửi dữ liệu: ' + data.message);
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Gửi Dữ Liệu';
+                    }
+                })
+                .catch(error => {
+                    alert('Có lỗi xảy ra khi gửi dữ liệu: ' + error.message);
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Gửi Dữ Liệu';
+                });
+        });
+    </script>
+</body>
+
+</html>

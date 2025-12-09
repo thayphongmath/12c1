@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Liên hệ Phụ huynh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --success-color: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-icon {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: var(--accent-color);
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            text-align: center;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .lockout-message {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #856404;
+            font-size: 14px;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .login-icon {
+                font-size: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-content">
+            <div class="login-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>Đăng nhập</h1>
+            <p class="subtitle">Nhập mật khẩu để truy cập danh sách SĐT Phụ huynh</p>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-key"></i> Mật khẩu</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu..." autofocus
+                        required>
+                </div>
+
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                </button>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+                <div class="lockout-message" id="lockoutMessage" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Cấu hình
+        const AUTH_API_URL = '/api/verify-password';
+        // Dùng đường dẫn tuyệt đối để tránh lỗi 404 do relative path
+        const TARGET_PAGE = '/lienhephuhuynh.html';
+        const maxAttempts = 5;
+        const lockoutTime = 15 * 60 * 1000; // 15 phút
+
+        let errorCount = 0;
+        let blockTime = 0;
+
+        // Kiểm tra trạng thái khóa
+        function isLockedOut() {
+            const lockout = localStorage.getItem('systemLockout');
+            if (lockout) {
+                blockTime = parseInt(lockout);
+                if (Date.now() < blockTime) {
+                    const remainingMinutes = Math.ceil((blockTime - Date.now()) / 60000);
+                    return remainingMinutes;
+                } else {
+                    localStorage.removeItem('systemLockout');
+                    localStorage.removeItem('errorCount');
+                    errorCount = 0;
+                }
+            }
+            return false;
+        }
+
+        // Kiểm tra lockout khi trang load
+        window.addEventListener('DOMContentLoaded', function () {
+            const lockoutMinutes = isLockedOut();
+            if (lockoutMinutes) {
+                const lockoutMsg = document.getElementById('lockoutMessage');
+                const passwordInput = document.getElementById('password');
+                const loginBtn = document.getElementById('loginBtn');
+
+                lockoutMsg.textContent = `Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau ${lockoutMinutes} phút.`;
+                lockoutMsg.style.display = 'block';
+                passwordInput.disabled = true;
+                loginBtn.disabled = true;
+            }
+        });
+
+        // Xử lý đăng nhập
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const passwordInput = document.getElementById('password');
+            const password = passwordInput.value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+            const loading = document.getElementById('loading');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (!password) {
+                errorMsg.textContent = 'Vui lòng nhập mật khẩu!';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            // Kiểm tra lockout
+            const lockoutMinutes = isLockedOut();
+            if (lockoutMinutes) {
+                errorMsg.textContent = `Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau ${lockoutMinutes} phút.`;
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            // Hiển thị loading
+            loading.classList.add('show');
+            loginBtn.disabled = true;
+            errorMsg.classList.remove('show');
+
+            try {
+                // Gọi API Vercel để xác thực
+                const response = await fetch(AUTH_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password: password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Mật khẩu đúng - lưu session và chuyển trang
+                    const sessionTime = Date.now();
+                    sessionStorage.setItem('pageAccess', sessionTime.toString());
+
+                    // Lưu API key từ session token (được tạo bởi backend)
+                    // Backend sẽ validate token này
+                    if (data.sessionToken) {
+                        sessionStorage.setItem('apiKey', data.sessionToken);
+                    }
+
+                    localStorage.removeItem('errorCount');
+                    errorCount = 0;
+
+                    // Chuyển đến trang liên hệ phụ huynh
+                    window.location.href = TARGET_PAGE;
+                } else {
+                    // Mật khẩu sai
+                    errorCount = parseInt(localStorage.getItem('errorCount') || '0') + 1;
+                    localStorage.setItem('errorCount', errorCount.toString());
+
+                    if (errorCount >= maxAttempts) {
+                        blockTime = Date.now() + lockoutTime;
+                        localStorage.setItem('systemLockout', blockTime.toString());
+
+                        const lockoutMsg = document.getElementById('lockoutMessage');
+                        lockoutMsg.textContent = `Bạn đã nhập sai ${maxAttempts} lần. Tài khoản bị khóa trong 15 phút.`;
+                        lockoutMsg.style.display = 'block';
+                        passwordInput.disabled = true;
+                        loginBtn.disabled = true;
+                    } else {
+                        const remaining = maxAttempts - errorCount;
+                        errorMsg.textContent = `Mật khẩu không đúng! Còn ${remaining} lần thử.`;
+                        errorMsg.classList.add('show');
+                    }
+
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch (error) {
+                console.error('Lỗi xử lý:', error);
+                errorMsg.textContent = 'Có lỗi xảy ra. Vui lòng thử lại!';
+                errorMsg.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
+                loginBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

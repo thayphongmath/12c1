@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<input id="pw" placeholder="Nhập mật khẩu" />
+<button onclick="hash()">Tạo hash</button>
+<pre id="out"></pre>
+<script>
+async function hash() {
+  const pw = document.getElementById('pw').value;
+  const enc = new TextEncoder().encode(pw);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  const hex = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+  document.getElementById('out').textContent = hex;
+}
+</script>
+</body>
+</html>

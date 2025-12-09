@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thi Đua Lớp Trưởng (LT)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            color: #c62828;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            text-align: center;
+            color: #1a237e;
+            font-weight: 500;
+            margin: 0 0 25px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1em;
+            color: #d81b60;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0288d1;
+            background: #ffffff;
+            box-shadow: 0 0 8px rgba(2, 136, 209, 0.2);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #0288d1, #0277bd);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(2, 136, 209, 0.3);
+        }
+
+        button[type="submit"]:hover:not(:disabled) {
+            background: linear-gradient(45deg, #0277bd, #01579b);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.4);
+        }
+
+        button[type="submit"]:disabled {
+            background: #b0bec5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #week_date_range {
+            font-size: 0.95em;
+            color: #37474f;
+            text-align: center;
+            margin-top: 8px;
+            display: block;
+            font-style: italic;
+        }
+
+        .action-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .action-group label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1em;
+            color: #2e7d32;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .action-group input {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1em;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            input,
+            button[type="submit"] {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+
+            .action-group {
+                gap: 15px;
+            }
+
+            label {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>DÀNH CHO LỚP TRƯỞNG (LT)</h1>
+        <h2>Lớp trưởng</h2>
+        <form id="teamForm"
+            action="https://script.google.com/macros/s/AKfycbzlB6iyIeI1GWhA2QNQzwiE5XzkLzh63Xsdf2Qcn7Q0EN4oA8HI9rKlV_l_FIP1ISexrw/exec"
+            method="POST">
+            <input type="hidden" name="team" value="LT">
+            <div class="form-group action-group">
+                <label><input type="radio" name="action" value="add" checked> Ghi mới (Tuần mới)</label>
+                <label><input type="radio" name="action" value="append"> Bổ sung (Tên HS thiếu)</label>
+                <label><input type="radio" name="action" value="edit"> Chỉnh sửa (Tuần cũ)</label>
+            </div>
+            <div class="form-group">
+                <label for="week">TUẦN THỨ (PHẢI NHẬP CHÍNH XÁC)</label>
+                <input type="number" id="week" name="week" min="1" max="35" required oninput="updateWeekDateRange()">
+                <span id="week_date_range"></span>
+                <input type="hidden" id="week_date_range_input" name="week_date_range">
+            </div>
+            <div class="form-group">
+                <label for="notice_guild">1. Thông báo bên Đoàn (Ra chơi đoàn mời):</label>
+                <input type="text" id="notice_guild" name="notice_guild" placeholder="Ví dụ: Lấy sổ đoàn ký tên, ...">
+            </div>
+            <div class="form-group">
+                <label for="absent_student">2. Học sinh Vắng (SDB):</label>
+                <input type="text" id="absent_student" name="absent_student" placeholder="Ví dụ: Phong(28/8)">
+            </div>
+            <div class="form-group">
+                <label for="late_student">3. Học sinh đi trễ (Đoàn ghi):</label>
+                <input type="text" id="late_student" name="late_student" placeholder="Ví dụ: Phong(29/8)">
+            </div>
+            <div class="form-group">
+                <label for="violation_guild">4. Vi phạm bên Đoàn (Đồng phục, Thức Ăn, Đầu tóc):</label>
+                <input type="text" id="violation_guild" name="violation_guild"
+                    placeholder="Ví dụ: Phong(Đồng phục 29/8)">
+            </div>
+            <div class="form-group">
+                <label for="future_plan">5. Phương hướng tuần sau:</label>
+                <input type="text" id="future_plan" name="future_plan" placeholder="Ví dụ: Tham gia lao động">
+            </div>
+            <div class="form-group">
+                <label for="password">***Mật khẩu*** (Thầy cấp riêng cho LT):</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" id="submitButton">Gửi Dữ Liệu</button>
+        </form>
+    </div>
+    <script>
+        const weekRanges = [
+            "từ ngày 8/9/2025 đến 13/9/2025",
+            "từ ngày 15/9/2025 đến 20/9/2025",
+            "từ ngày 22/9/2025 đến 27/9/2025",
+            "từ ngày 29/9/2025 đến 4/10/2025",
+            "từ ngày 6/10/2025 đến 11/10/2025",
+            "từ ngày 13/10/2025 đến 18/10/2025",
+            "từ ngày 20/10/2025 đến 25/10/2025",
+            "từ ngày 27/10/2025 đến 1/11/2025",
+            "từ ngày 3/11/2025 đến 8/11/2025",
+            "từ ngày 10/11/2025 đến 15/11/2025",
+            "từ ngày 17/11/2025 đến 22/11/2025",
+            "từ ngày 24/11/2025 đến 29/11/2025",
+            "từ ngày 1/12/2025 đến 6/12/2025",
+            "từ ngày 8/12/2025 đến 13/12/2025",
+            "từ ngày 15/12/2025 đến 20/12/2025",
+            "từ ngày 22/12/2025 đến 27/12/2025",
+            "từ ngày 29/12/2025 đến 3/1/2026",
+            "từ ngày 5/1/2026 đến 10/1/2026",
+            "từ ngày 12/1/2026 đến 17/1/2026",
+            "từ ngày 19/1/2026 đến 24/1/2026",
+            "từ ngày 26/1/2026 đến 31/1/2026",
+            "từ ngày 2/2/2026 đến 7/2/2026",
+            "từ ngày 9/2/2026 đến 14/2/2026",
+            "từ ngày 16/2/2026 đến 21/2/2026",
+            "từ ngày 23/2/2026 đến 28/2/2026",
+            "từ ngày 2/3/2026 đến 7/3/2026",
+            "từ ngày 9/3/2026 đến 14/3/2026",
+            "từ ngày 16/3/2026 đến 21/3/2026",
+            "từ ngày 23/3/2026 đến 28/3/2026",
+            "từ ngày 30/3/2026 đến 4/4/2026",
+            "từ ngày 6/4/2026 đến 11/4/2026",
+            "từ ngày 13/4/2026 đến 18/4/2026",
+            "từ ngày 20/4/2026 đến 25/4/2026",
+            "từ ngày 27/4/2026 đến 2/5/2026",
+            "từ ngày 18/5/2026 đến 23/5/2026"
+        ];
+
+        function updateWeekDateRange() {
+            const weekInput = document.getElementById('week').value;
+            const weekDateRange = document.getElementById('week_date_range');
+            const weekDateRangeInput = document.getElementById('week_date_range_input');
+            if (weekInput >= 1 && weekInput <= 35) {
+                weekDateRange.textContent = weekRanges[weekInput - 1];
+                weekDateRangeInput.value = weekRanges[weekInput - 1];
+            } else {
+                weekDateRange.textContent = '';
+                weekDateRangeInput.value = '';
+            }
+        }
+
+        async function verifyPassword(input) {
+            try {
+                const response = await fetch('/api/verify-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password: input, page: 'lt' })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    return true;
+                }
+
+                const errorMessage = data && (data.error || data.message) || 'Mật khẩu không đúng!';
+                alert(errorMessage);
+                return false;
+            } catch (error) {
+                alert('Không thể xác thực. Vui lòng thử lại.');
+                return false;
+            }
+        }
+
+        document.getElementById('teamForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const submitButton = document.getElementById('submitButton');
+            const password = document.getElementById('password').value.trim();
+
+            submitButton.textContent = 'Đang xác thực...';
+            submitButton.disabled = true;
+
+            const isValid = await verifyPassword(password);
+            if (!isValid) {
+                submitButton.textContent = 'Gửi Dữ Liệu';
+                submitButton.disabled = false;
+                return;
+            }
+
+            submitButton.textContent = 'Đang gửi...';
+
+            const formData = new FormData(this);
+            const googleScriptAppUrl = 'https://script.google.com/macros/s/AKfycbzlB6iyIeI1GWhA2QNQzwiE5XzkLzh63Xsdf2Qcn7Q0EN4oA8HI9rKlV_l_FIP1ISexrw/exec';
+
+            fetch(googleScriptAppUrl, {
+                method: 'POST',
+                body: formData,
+                redirect: 'follow'
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        window.location.href = 'thankyou.html';
+                    } else {
+                        alert('Có lỗi xảy ra khi gửi dữ liệu: ' + data.message);
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'Gửi Dữ Liệu';
+                    }
+                })
+                .catch(error => {
+                    alert('Có lỗi xảy ra khi gửi dữ liệu: ' + error.message);
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Gửi Dữ Liệu';
+                });
+        });
+    </script>
+</body>
+
+</html>

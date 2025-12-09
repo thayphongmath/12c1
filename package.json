@@ -1,0 +1,21 @@
+{
+  "name": "lien-he-phu-huynh",
+  "version": "1.0.0",
+  "description": "Hệ thống quản lý liên hệ phụ huynh",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@vercel/kv": "^0.2.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "phu-huynh",
+    "contact",
+    "vercel"
+  ],
+  "author": "",
+  "license": "ISC"
+}
