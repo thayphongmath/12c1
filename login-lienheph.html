@@ -17,6 +17,26 @@
             --success-color: #2ecc71;
         }
 
+        .back-home {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .back-home a {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-home a:hover {
+            transform: translateY(-1px);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -228,6 +248,9 @@
 
 <body>
     <div class="login-container">
+        <div class="back-home">
+            <a href="index.html">← Trở về trang chủ</a>
+        </div>
         <div class="login-content">
             <div class="login-icon">
                 <i class="fas fa-lock"></i>
