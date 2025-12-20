@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Thủ Quỹ</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="config.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -309,7 +310,7 @@
         <h1>DÀNH CHO THỦ QUỸ</h1>
         <h2>Quản lý thu chi</h2>
         <form id="teamForm"
-            action="https://script.google.com/macros/s/AKfycbxhjgOwJDMS4FPWM5gzBxGVxbjEN3H6GuP0Cdt9Kdt8JVKnfrMVOkoGRwuqoSFxhXHHGQ/exec"
+            action=""
             method="POST">
             <input type="hidden" name="team" value="ThuQuy">
             <div class="form-group action-group">
@@ -572,9 +573,11 @@
             submitButton.textContent = 'Đang gửi...';
 
             const formData = new FormData(this);
-            const googleScriptAppUrl = 'https://script.google.com/macros/s/AKfycbxhjgOwJDMS4FPWM5gzBxGVxbjEN3H6GuP0Cdt9Kdt8JVKnfrMVOkoGRwuqoSFxhXHHGQ/exec';
+            
+            // Set form action dynamically from config
+            this.action = GOOGLE_SCRIPT_URL;
 
-            fetch(googleScriptAppUrl, {
+            fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 body: formData,
                 redirect: 'follow'
